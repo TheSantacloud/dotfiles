@@ -30,6 +30,8 @@ brew bundle --file $(dirname $0)/Brewfile
 # chrome-cli login to my default user, and set chrome as default browser
 echo "setting up obsidian"
 git clone git@github.com:dormunis/obsidian-vault.git ~/Documents/obsidian-vault
+
+# setting up different software that are not bound by dotfiles
 defaults import com.googlecode.iterm2 $(dirname $0)/iterm2.plist
 
 echo "setting up dotfiles"
