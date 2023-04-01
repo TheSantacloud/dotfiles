@@ -4,7 +4,7 @@ echo "installing homebrew"
 (
 	echo
 	echo 'eval "$(/opt/homebrew/bin/brew shellenv)"'
-) >>/Users/dormunis/.zprofile
+) >>"$PWD/.zprofile"
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
 echo "setting up mac with default configurations"
@@ -34,8 +34,11 @@ git clone git@github.com:dormunis/obsidian-vault.git ~/Documents/obsidian-vault
 # setting up different software that are not bound by dotfiles
 defaults import com.googlecode.iterm2 $(dirname $0)/iterm2.plist
 
-echo "setting up dotfiles"
+echo "setting up dotfiles symlinks"
 # TODO: copy dotfiles to this directory and symlink them
+mkdir -p ~/.config
+ln -s "$PWD/tmux" ~/.config/tmux
+ln -s "$PWD/nvim" ~/.config/nvim
 
 # setup python
 echo "installing python 3.11"

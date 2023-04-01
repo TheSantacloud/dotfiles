@@ -3,7 +3,11 @@
 This is a dotfiles repository, built to bootstrap any Mac workstation to fit my configurations
 
 ## Installation
-Just run `setup.sh`
+
+```
+git clone --recursive git@github.com:dormunis/dotfiles.git
+./setup.sh
+```
 
 ## TODO
 1. add the actual dotfiles inside, this only installs software right now
