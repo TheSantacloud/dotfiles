@@ -9,8 +9,8 @@ return {
         local map = vim.api.nvim_set_keymap
         local opts = { noremap = true, silent = true }
 
-        map("n", "<leader>bh", "<cmd>BufferPrevious<CR>", opts)
-        map("n", "<leader>bl", "<cmd>BufferNext<CR>", opts)
+        map("n", "<leader>b[", "<cmd>BufferPrevious<CR>", opts)
+        map("n", "<leader>b]", "<cmd>BufferNext<CR>", opts)
 
         map("n", "<leader>b1", "<cmd>BufferGoto 1<CR>", opts)
         map("n", "<leader>b2", "<cmd>BufferGoto 2<CR>", opts)

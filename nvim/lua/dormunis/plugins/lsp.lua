@@ -4,10 +4,14 @@ return {
     dependencies = {
         -- LSP Support
         {'neovim/nvim-lspconfig'},             -- Required
+        {'mfussenegger/nvim-dap'},
+        {'jay-babu/mason-nvim-dap.nvim'},
         {                                      -- Optional
             'williamboman/mason.nvim',
             build= function()
                 pcall(vim.cmd, 'MasonUpdate')
+                require('nvim-dap').setup()
+                require('mason-nvim-dap').setup()
             end,
         },
         {'williamboman/mason-lspconfig.nvim'}, -- Optional
@@ -57,16 +61,18 @@ return {
         })
 
         lsp.setup_nvim_cmp({
-            mapping = cmp_mapping
         })
 
         lsp.on_attach(function(client, bufnr)
             local opts = {buffer = bufnr, remap = false}
 
             vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
-            vim.keymap.set("n", "H", function() vim.lsp.buf.hover() end, opts)
-            vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, opts)
-            vim.keymap.set("n", "]d", function() vim.diagnostic.goto_previous() end, opts)
+            vim.keymap.set("n", "gt", function() vim.lsp.buf.type_definition() end, opts)
+            vim.keymap.set("n", "gi", function() vim.lsp.buf.implementation() end, opts)
+            vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
+            vim.keymap.set("n", "[e", function() vim.diagnostic.goto_next() end, opts)
+            vim.keymap.set("n", "]e", function() vim.diagnostic.goto_previous() end, opts)
+            vim.keymap.set("n", "<leader>cd", function() vim.diagnostic.open_float() end, opts)
             vim.keymap.set("n", "<leader>ca", function() vim.lsp.buf.code_action() end, opts)
             vim.keymap.set("n", "<leader>cr", function() vim.lsp.buf.references() end, opts)
             vim.keymap.set("n", "<leader>cR", function() vim.lsp.buf.rename() end, opts)

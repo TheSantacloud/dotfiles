@@ -43,7 +43,7 @@ vim.keymap.set("n", "<leader>sr", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left>
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
 
 -- remove highlights from search
-vim.keymap.set("n", "<leader>H", ":nohlsearch<CR>")
+vim.keymap.set("n", "<leader>h", ":nohlsearch<CR>")
 
 -- toggle Lazy
 vim.keymap.set("n", "<C-l>", ":Lazy<CR>")
