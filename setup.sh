@@ -39,6 +39,8 @@ echo "setting up dotfiles symlinks"
 mkdir -p ~/.config
 ln -s "$PWD/tmux" ~/.config/tmux
 ln -s "$PWD/nvim" ~/.config/nvim
+ln -s "$PWD/yabai" ~/.config/yabai
+ln -s "$PWD/skhd" ~/.config/skhd
 
 # setup python
 echo "installing python 3.11"
