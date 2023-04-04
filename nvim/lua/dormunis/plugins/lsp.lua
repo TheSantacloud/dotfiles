@@ -10,8 +10,6 @@ return {
             'williamboman/mason.nvim',
             build= function()
                 pcall(vim.cmd, 'MasonUpdate')
-                require('nvim-dap').setup()
-                require('mason-nvim-dap').setup()
             end,
         },
         {'williamboman/mason-lspconfig.nvim'}, -- Optional
@@ -56,8 +54,8 @@ return {
         local cmp_mappings = lsp.defaults.cmp_mappings({
             ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
             ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-            ['<C-y>'] = cmp.mapping.confirm({select = true}),
-            --['<C-Space>'] = cmp.mapping.complete(),
+            -- ['<CR>'] = cmp.mapping.confirm({select = true}),
+            ['<C-Space>'] = cmp.mapping.complete(),
         })
 
         lsp.setup_nvim_cmp({
@@ -83,5 +81,8 @@ return {
         require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls())
 
         lsp.setup()
+
+        -- require('nvim-dap').setup()
+        -- require('mason-nvim-dap').setup()
     end
 }
