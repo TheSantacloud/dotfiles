@@ -7,25 +7,25 @@ echo "installing homebrew"
 ) >>"$PWD/.zprofile"
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
+# installing various software from brew using Brewfile
+echo "installing all software"
+brew bundle --file $(dirname $0)/Brewfile
+
 echo "setting up mac with default configurations"
-chmod +x $(dirname $0)/macos.sh
-$(dirname $0)/macos.sh
+chmod +x $(dirname $0)/macos.zsh
+$(dirname $0)/macos.zsh
 
 # set wallpaper
 pget https://www.xtrafondos.com/wallpapers/superman-de-espaldas-7443.jpg -o ~/Pictures/superman-wallpaper.jpg
 osascript
 tell application "Finder"
-set desktop picture to POSIX file "/Users/dormunis/Pictures/superman-wallpaper.jpg"
+set desktop picture to POSIX file "~/Pictures/superman-wallpaper.jpg"
 end tell
 
 # setup ssh
 echo "setting up ssh"
 # TODO: find a way to inject my private key to ssh
 chmod 400 ~/.ssh/id_rsa
-
-# installing various software from brew using Brewfile
-echo "installing all software"
-brew bundle --file $(dirname $0)/Brewfile
 
 # chrome-cli login to my default user, and set chrome as default browser
 echo "setting up obsidian"
