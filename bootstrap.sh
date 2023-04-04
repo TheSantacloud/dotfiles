@@ -9,11 +9,12 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # installing various software from brew using Brewfile
 echo "installing all software"
-brew bundle --file $(dirname $0)/Brewfile
+brew bundle --file $(dirname $0)/_bootstrap/gBrewfile
 
 echo "setting up mac with default configurations"
-chmod +x $(dirname $0)/macos.zsh
-$(dirname $0)/macos.zsh
+chmod +x $(dirname $0)/_bootstrap/gmacos.zsh
+$(dirname $0)/_bootstrap/gmacos.zsh
+python $(dirname $0)/_bootstrap/set-chrome-default-browser.py
 
 # set wallpaper
 pget https://www.xtrafondos.com/wallpapers/superman-de-espaldas-7443.jpg -o ~/Pictures/superman-wallpaper.jpg
@@ -32,7 +33,7 @@ echo "setting up obsidian"
 git clone git@github.com:dormunis/obsidian-vault.git ~/Documents/obsidian-vault
 
 # setting up different software that are not bound by dotfiles
-defaults import com.googlecode.iterm2 $(dirname $0)/iterm2.plist
+defaults import com.googlecode.iterm2 $(dirname $0)/_bootstrap/giterm2.plist
 
 echo "setting up dotfiles symlinks"
 # TODO: copy dotfiles to this directory and symlink them
