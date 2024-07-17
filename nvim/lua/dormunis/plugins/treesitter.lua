@@ -3,7 +3,6 @@ return {
     build = ":TSUpdate",
     event = { "BufRead", "BufNewFile" },
     dependencies = {
-        'nvim-treesitter/nvim-treesitter-textobjects',
         'nvim-treesitter/nvim-treesitter-context',
         'nvim-treesitter/nvim-treesitter-refactor',
     },
@@ -58,48 +57,7 @@ return {
                 },
             },
             highlight = {
-                enable = true
-            },
-            textobjects = {
-                select = {
-                    enable = true,
-                    lookahead = true,
-                    keymaps = {
-                        ['aa'] = { query = '@parameter.outer', desc = 'Select around parameter' },
-                        ['ia'] = { query = '@parameter.inner', desc = 'Select inside parameter' },
-                        ['af'] = { query = '@function.outer', desc = 'Select around function' },
-                        ['if'] = { query = '@function.inner', desc = 'Select inside function' },
-                        ['ac'] = { query = '@class.outer', desc = 'Select around class' },
-                        ['ic'] = { query = '@class.inner', desc = 'Select inside class' },
-                        ['ai'] = { query = '@conditional.outer', desc = 'Select around conditional' },
-                        ['ii'] = { query = '@conditional.inner', desc = 'Select inside conditional' },
-                        ['al'] = { query = '@loop.outer', desc = 'Select around loop' },
-                        ['il'] = { query = '@loop.inner', desc = 'Select inside loop' },
-                        ['a='] = { query = '@assignment.outer', desc = 'Select entire assignment' },
-                        ['i='] = { query = '@assignment.inner', desc = 'Select assignment value' },
-                        ['v='] = { query = '@assignment.lhs', desc = 'Select assignment variable' },
-                    },
-                    move = {
-                        enable = true,
-                        set_jumps = true,
-                        goto_next_start = {
-                            [']f'] = '@function.outer',
-                            [']]'] = '@class.outer',
-                        },
-                        goto_next_end = {
-                            [']F'] = '@function.outer',
-                            [']['] = '@class.outer',
-                        },
-                        goto_previous_start = {
-                            ['[f'] = '@function.outer',
-                            ['[['] = '@class.outer',
-                        },
-                        goto_previous_end = {
-                            ['[F'] = '@function.outer',
-                            ['[]'] = '@class.outer',
-                        },
-                    },
-                }
+                enable = true,
             },
         }
     end
