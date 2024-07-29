@@ -43,25 +43,6 @@ source $ZSH/aliases/git.plugin.zsh
 export KUBE_EDITOR=nvim
 bindkey -s '^f' "tmux-sessionizer\n"
 
-# nvm
-export NVM_DIR="$HOME/.nvm"
-
-nvm_lazy_cmd=(nvm node npm npx pnpm yarn $nvm_lazy_cmd)
-eval "
-function $nvm_lazy_cmd {
-    for func in $nvm_lazy_cmd; do
-    if (( \$+functions[\$func] )); then
-        unfunction \$func
-    fi
-    done
-    # Load nvm if it exists in \$NVM_DIR
-    [[ -f \"\$NVM_DIR/nvm.sh\" ]] && source \"\$NVM_DIR/nvm.sh\"
-    \"\$0\" \"\$@\"
-}
-"
-unset nvm_lazy_cmd
-[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-
 # pyenv
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
