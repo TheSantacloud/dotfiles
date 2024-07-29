@@ -31,6 +31,7 @@ return {
             nmap("H", vim.lsp.buf.signature_help, "Signature Help")
             nmap("<leader>cf", vim.lsp.buf.format, "Format file")
             nmap("<leader>ca", vim.lsp.buf.code_action, "Code action")
+            nmap("<leader>L", ":LspRestart<CR>", "LSP Restart")
         end
 
         local servers = {
