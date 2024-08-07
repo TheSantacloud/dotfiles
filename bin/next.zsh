@@ -25,5 +25,4 @@ fi
 TOTAL=`echo $TASKS | jq length`
 
 echo "total $TOTAL"
-echo $TASKS | jq --argjson project_map "$PROJECT_MAP" -r 'sort_by(.project_id) | .[] | "\(.id) \($project_map[.project_id] // "Unknown") todoist p\(.priority)\(if .due.is_recurring then "r" else "t" end)\t\(.created_at | sub("\\.[0-9]+Z$"; "Z") | fromdate | strftime("%b %d %H:%M"))  \(.content)"'
-
+echo -e $TASKS | jq --argjson project_map "$PROJECT_MAP" -r 'sort_by(.project_id) | .[] | "\(.id)\t\($project_map[.project_id] // "Unknown")\tp\(.priority)\(if .due.is_recurring then "r" else "t" end)\t\(.created_at | sub("\\.[0-9]+Z$"; "Z") | fromdate | strftime("%b %d %H:%M"))  \(.content)"' | column -ts $'\t'
