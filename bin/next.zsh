@@ -25,4 +25,4 @@ fi
 TOTAL=`echo $TASKS | jq length`
 
 echo "total $TOTAL"
-echo -e $TASKS | jq --argjson project_map "$PROJECT_MAP" -r 'sort_by(.project_id) | .[] | "\(.id)\t\($project_map[.project_id] // "Unknown")\tp\(.priority)\(if .due.is_recurring then "r" else "t" end)\t\(.created_at | sub("\\.[0-9]+Z$"; "Z") | fromdate | strftime("%b %d %H:%M"))  \(.content)"' | column -ts $'\t'
+echo -e $TASKS | jq --argjson project_map "$PROJECT_MAP" -r 'sort_by(.project_id) | .[] | "\(.id)\t\(.created_at | sub("\\.[0-9]+Z$"; "Z") | fromdate | strftime("%b %d %H:%M"))\t\($project_map[.project_id] // "Unknown")\t\(.labels | map(select(. != "next")) |  if length > 0 then join(",") else "-" end)\t\(.content)"' | column -ts $'\t'
