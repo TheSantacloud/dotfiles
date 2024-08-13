@@ -52,16 +52,24 @@ return {
                 },
             })
 
-            vim.keymap.set("n", "<leader>fh", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end,
+            vim.keymap.set("n", "<leader>=", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end,
                 { desc = "Open harpoon window" })
-            vim.keymap.set("n", "<leader>fm", function()
+            vim.keymap.set("n", "+", function()
                 harpoon:list():append()
                 vim.notify("Marked current file", vim.log.levels.INFO)
             end, { desc = "Mark current file" })
-            vim.keymap.set("n", "+", function() harpoon:list():prev({ ui_nav_wrap = true }) end,
-                { desc = "Navigate to previous marked file", silent = true, noremap = true })
             vim.keymap.set("n", "=", function() harpoon:list():next({ ui_nav_wrap = true }) end,
-                { desc = "Navigate to next marked file", silent = true, noremap = true })
+                { desc = "Navigate to previous marked file", silent = true, noremap = true })
+            vim.keymap.set("n", "=1", function() harpoon:list():select(1) end,
+                { desc = "Navigate harpoon ID 1", silent = true, noremap = true })
+            vim.keymap.set("n", "=2", function() harpoon:list():select(2) end,
+                { desc = "Navigate harpoon ID 2", silent = true, noremap = true })
+            vim.keymap.set("n", "=3", function() harpoon:list():select(3) end,
+                { desc = "Navigate harpoon ID 3", silent = true, noremap = true })
+            vim.keymap.set("n", "=4", function() harpoon:list():select(4) end,
+                { desc = "Navigate harpoon ID 4", silent = true, noremap = true })
+            vim.keymap.set("n", "=5", function() harpoon:list():select(5) end,
+                { desc = "Navigate harpoon ID 5", silent = true, noremap = true })
         end,
     },
     {
