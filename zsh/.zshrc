@@ -51,3 +51,9 @@ eval "$(pyenv init -)"
 if [ $PROFILING_MODE -ne 0 ]; then
     zprof
 fi
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/dormunis/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/dormunis/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/dormunis/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/dormunis/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
