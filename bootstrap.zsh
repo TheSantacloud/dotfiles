@@ -63,6 +63,11 @@ cd python -m venv debugpy "$dotfilesdir/dap-virtualenvs"
 $dotfilesdir/debugpy/bin/pip install debugpy
 ln -s "$dotfilesdir/dap-virtualenvs" ~/.config/dap-virtualenvs
 
+# setup jupyter notebook
+mkdir ~/dev/jupyter-notebooks
+python -m venv ~/Library/Caches/pypoetry/virtualenvs/jupyter
+source ~/Library/Caches/pypoetry/virtualenvs/jupyter/bin/pip3 install jupyterlab jupyterthemes jupyterlab-vim
+
 # install bun
 echo "installing bun"
 curl -fsSL https://bun.sh/install | sh
