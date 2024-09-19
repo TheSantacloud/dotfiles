@@ -48,7 +48,7 @@ while [[ $# -gt 0 ]]; do
     shift
 done
 
-# Get project location 
+# Get project location
 if [ -z "$DIR" ]; then
     DIRS=`find "$DEV_FOLDER" -type d -mindepth 1 -maxdepth 1 -exec basename {} \;`
     DIR=`echo $DIRS | fzf --header "New project location"`
@@ -79,19 +79,13 @@ fi
 if [ $NO_TMUX -eq 0 ]; then
     tmux_running=$(pgrep tmux)
     if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
-        tmux new-session -s $DIR -c $NEW_PROJECT -n $NAME
+        tmux new-session -s $NAME
         exit 0
     fi
 
-    if ! tmux has-session -t=$DIR 2> /dev/null; then
-        tmux new-session -ds $DIR -c $NEW_PROJECT -n $NAME
+    if ! tmux has-session -t=$NAME 2> /dev/null; then
+        tmux new-session -ds $NAME -c $NEW_PROJECT
     fi
 
-    window_exists=$(tmux list-windows -t "$DIR" -F '#{window_name}' | grep -Fx "$NAME")
-    if [[ -z $window_exists ]]; then
-        next_index=$(tmux list-windows -t $DIR -F '#{window_index}' | awk 'BEGIN{max=-1}{if($1>max) max=$1}END{print max+1}')
-        tmux new-window -c $NEW_PROJECT -n $NAME -t $DIR:$next_index
-    fi
-
-    tmux switch-client -t $DIR:$NAME
+    tmux switch-client -t $NAME
 fi
