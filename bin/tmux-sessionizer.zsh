@@ -5,7 +5,7 @@ DEV_DIR="$HOME/dev"
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    selected=$(find ~/dev -mindepth 1 -maxdepth 3 -type d -name ".git" | 
+    selected=$(find ~/dev -mindepth 1 -maxdepth 3 -type d -name ".git" |
         sed -e 's:/\.git$::' -e "s:^$HOME/dev/::" | fzf-tmux)
 
     # catch escape key
@@ -19,11 +19,11 @@ if [[ -z $selected ]]; then
     exit 0
 fi
 
-session_name=$(basename "$selected" | sed 's/\./_/g')
+session_name="${selected#$DEV_DIR/}"
 
 tmux_running=$(pgrep tmux)
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
-    tmux new-session -s $session_name -c $selected 
+    tmux new-session -s $session_name -c $selected
     exit 0
 fi
 
