@@ -79,13 +79,13 @@ fi
 if [ $NO_TMUX -eq 0 ]; then
     tmux_running=$(pgrep tmux)
     if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
-        tmux new-session -s $NAME
+        tmux new-session -s "$DIR/$NAME"
         exit 0
     fi
 
-    if ! tmux has-session -t=$NAME 2> /dev/null; then
-        tmux new-session -ds $NAME -c $NEW_PROJECT
+    if ! tmux has-session -t="$DIR/$NAME" 2> /dev/null; then
+        tmux new-session -ds "$DIR/$NAME"  -c $NEW_PROJECT
     fi
 
-    tmux switch-client -t $NAME
+    tmux switch-client -t "$DIR/$NAME"
 fi
