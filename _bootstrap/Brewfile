@@ -56,4 +56,4 @@ cask "discord"
 cask "raycast"
 
 # 3d printing
-brew install --cask superslicer
+brew install --cask orcaslicer
