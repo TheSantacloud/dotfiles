@@ -24,6 +24,7 @@ brew "poetry"
 brew "pre-commit"
 brew "gh"
 brew "zig"
+brew "arduino-cli"
 cask "docker"
 
 # neovim
