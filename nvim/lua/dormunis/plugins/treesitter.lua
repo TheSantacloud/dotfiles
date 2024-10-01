@@ -46,16 +46,7 @@ return {
             },
             sync_install = false,
             auto_install = true,
-            indent = { enable = true },
-            incremental_selection = {
-                enable = true,
-                keymaps = {
-                    init_selection = '<TAB>',
-                    node_incremental = '<TAB>',
-                    node_decremental = '<S-TAB>',
-                    scope_incremental = '<CR>',
-                },
-            },
+            -- indent = { enable = true },
             highlight = {
                 enable = true,
             },

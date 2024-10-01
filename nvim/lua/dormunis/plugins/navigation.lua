@@ -15,9 +15,7 @@ return {
             local utils = require('telescope.utils')
 
             -- project navigation
-            vim.keymap.set('n', '<Tab><Tab>', function()
-                    builtin.find_files({ hidden = true })
-                end,
+            vim.keymap.set('n', '<leader><tab>', function() builtin.find_files({ hidden = true }) end,
                 { desc = 'Find files (filtered to roughly relevant files)' })
             vim.keymap.set('n', '<leader>ff', builtin.git_files, { desc = 'Find files in git repo' })
             vim.keymap.set('n', '<leader>gl', builtin.git_commits, { desc = 'Git log (telescope)' })
