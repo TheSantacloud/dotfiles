@@ -1,5 +1,25 @@
 return {
     {
+        "folke/todo-comments.nvim",
+        dependencies = { "nvim-lua/plenary.nvim" },
+        opts = {
+            vim.keymap.set("n", "T", function()
+                if vim.fn.getqflist({ winid = 0 }).winid ~= 0 then
+                    vim.cmd('cclose')
+                else
+                    vim.cmd('TodoQuickFix')
+                end
+            end, { desc = "TODO quickfix" }),
+            vim.keymap.set("n", "]t", function()
+                require("todo-comments").jump_next()
+            end, { desc = "Next todo comment" }),
+
+            vim.keymap.set("n", "[t", function()
+                require("todo-comments").jump_prev()
+            end, { desc = "Previous todo comment" }),
+        }
+    },
+    {
         'nvim-telescope/telescope.nvim',
         event = "VeryLazy",
         dependencies = {
