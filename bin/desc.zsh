@@ -15,12 +15,20 @@ get_random_element() {
     local array=("$@")
     local array_size=${#array[@]}
 
-    if [ $array_size -eq 0 ]; then
-        echo ""
-    else
-        local index=$((RANDOM % array_size))
-        echo "${array[$index]}"
+    if (( array_size == 0 )); then
+        echo "[Error] Array is empty!" >&2
+        return 1
     fi
+
+    local index=$((1 + RANDOM % array_size))
+    local element="${array[$index]}"
+
+    if [[ -z "$element" ]]; then
+        echo "[Error] Selected element is empty! " $index >&2
+        return 1
+    fi
+
+    echo "$element"
 }
 
 elements_count=$((2 + RANDOM % 3))
@@ -36,15 +44,15 @@ for (( i=0; i<$elements_count; i++ )); do
     done
 
     case $random_index in
-        0) element=">SETTING: $(get_random_element "${setting_descriptors[@]}")" ;;
-        1) element=">MOOD: $(get_random_element "${moods[@]}")" ;;
-        2) element=">VISUAL: $(get_random_element "${visual_details[@]}")" ;;
-        3) element=">TEMPERATURE: $(get_random_element "${temperatures[@]}")" ;;
-        4) element=">SMELL: $(get_random_element "${smells[@]}")" ;;
-        5) element=">HEAR: $(get_random_element "${sounds[@]}")" ;;
-        6) element=">SIGHT: $(get_random_element "${focal_points[@]}")" ;;
-        7) element=">DYNAMIC: $(get_random_element "${movements[@]}")" ;;
-        8) element=">EMOTION: $(get_random_element "${emotions[@]}")" ;;
+        0) element="🏞️🏰 $(get_random_element "${setting_descriptors[@]}")" ;;
+        1) element="🌫️🌞 $(get_random_element "${moods[@]}")" ;;
+        2) element="🌫️✨ $(get_random_element "${visual_details[@]}")" ;;
+        3) element="🔥❄️ $(get_random_element "${temperatures[@]}")" ;;
+        4) element="👃🌹 $(get_random_element "${smells[@]}")" ;;
+        5) element="🔊🔇 $(get_random_element "${sounds[@]}")" ;;
+        6) element="🗝️💎 $(get_random_element "${focal_points[@]}")" ;;
+        7) element="🍃💨 $(get_random_element "${movements[@]}")" ;;
+        8) element="😨😍 $(get_random_element "${emotions[@]}")" ;;
     esac
 
     if [[ -n "$element" ]]; then
@@ -54,5 +62,5 @@ for (( i=0; i<$elements_count; i++ )); do
     fi
 
 done
-echo "POINT THE CAMERA: $(get_random_element "${hooks[@]}")"
+echo "> 📷 $(get_random_element "${hooks[@]}")"
 
