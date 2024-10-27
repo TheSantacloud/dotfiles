@@ -34,6 +34,7 @@ get_random_element() {
 elements_count=$((2 + RANDOM % 3))
 used_indices=()
 
+output=""
 for (( i=0; i<$elements_count; i++ )); do
     while :; do
         random_index=$((RANDOM % 9))
@@ -45,10 +46,10 @@ for (( i=0; i<$elements_count; i++ )); do
 
     case $random_index in
         0) element="🏞️🏰 $(get_random_element "${setting_descriptors[@]}")" ;;
-        1) element="🌫️🌞 $(get_random_element "${moods[@]}")" ;;
-        2) element="🌫️✨ $(get_random_element "${visual_details[@]}")" ;;
+        1) element="😬😌 $(get_random_element "${moods[@]}")" ;;
+        2) element="🌑✨ $(get_random_element "${visual_details[@]}")" ;;
         3) element="🔥❄️ $(get_random_element "${temperatures[@]}")" ;;
-        4) element="👃🌹 $(get_random_element "${smells[@]}")" ;;
+        4) element="👃💨 $(get_random_element "${smells[@]}")" ;;
         5) element="🔊🔇 $(get_random_element "${sounds[@]}")" ;;
         6) element="🗝️💎 $(get_random_element "${focal_points[@]}")" ;;
         7) element="🍃💨 $(get_random_element "${movements[@]}")" ;;
@@ -56,11 +57,11 @@ for (( i=0; i<$elements_count; i++ )); do
     esac
 
     if [[ -n "$element" ]]; then
-        echo "$element"
+        output+="$element\n"
     else
         i=i-1;
     fi
 
 done
-echo "> 📷 $(get_random_element "${hooks[@]}")"
+echo "${output}> 📷 $(get_random_element "${hooks[@]}")"
 
