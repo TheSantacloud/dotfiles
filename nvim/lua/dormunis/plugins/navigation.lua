@@ -88,6 +88,10 @@ return {
                 { desc = "Navigate harpoon ID 4", silent = true, noremap = true })
             vim.keymap.set("n", "=5", function() harpoon:list():select(5) end,
                 { desc = "Navigate harpoon ID 5", silent = true, noremap = true })
+            vim.keymap.set("n", "=6", function() harpoon:list():select(6) end,
+                { desc = "Navigate harpoon ID 6", silent = true, noremap = true })
+            vim.keymap.set("n", "=7", function() harpoon:list():select(7) end,
+                { desc = "Navigate harpoon ID 7", silent = true, noremap = true })
         end,
     },
     {
