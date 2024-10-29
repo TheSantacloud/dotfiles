@@ -74,6 +74,18 @@ return {
             end,
         })
 
+        -- treat all files with the extension .tmp as the filetype of the extension
+        vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+            pattern = "*.tmp",
+            callback = function(event)
+                local original_name = vim.fn.fnamemodify(event.file, ":r")
+                local filetype = vim.filetype.match({ filename = original_name })
+                if filetype then
+                    vim.bo.filetype = filetype
+                end
+            end,
+        })
+
         require("neodev").setup()
 
         local capabilities = vim.lsp.protocol.make_client_capabilities()
