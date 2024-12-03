@@ -15,7 +15,6 @@ program = "/bin/zsh"
 [window]
 decorations = "none"
 dynamic_padding = true
-opacity = 0.95
 
 [cursor]
 vi_mode_style = { shape = "Block" }

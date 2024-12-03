@@ -7,6 +7,7 @@ return {
     dependencies = {
         "mfussenegger/nvim-dap-python",
         "leoluz/nvim-dap-go",
+        "julianolf/nvim-dap-lldb",
         "rcarriga/nvim-dap-ui",
         "nvim-neotest/nvim-nio",
         "theHamsta/nvim-dap-virtual-text",
@@ -26,7 +27,6 @@ return {
             function() dap.set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end,
             { desc = "Debug: log point" })
 
-
         local dapui = require("dapui")
         dapui.setup()
         -- ui auto-hook
@@ -40,8 +40,50 @@ return {
         -- language plugins
         local python = require('dap-python')
         python.setup('~/.config/dap-virtualenvs/debugpy/bin/python')
+
         local delve = require('dap-go')
         delve.setup()
+
+        local lldb_config = {
+            configurations = {
+                zig = {
+                    {
+                        name = "Launch debugger",
+                        type = "lldb",
+                        request = "launch",
+                        cwd = "${workspaceFolder}",
+                        program = function()
+                            local out = vim.fn.system({ "zig", "build", "-Doptimize=Debug" })
+                            if vim.v.shell_error ~= 0 then
+                                vim.notify(out, vim.log.levels.ERROR)
+                                return nil
+                            end
+
+                            local bin_dir = "./zig-out/bin/"
+                            local executable_name = nil
+
+                            for _, filename in ipairs(vim.fn.readdir(bin_dir)) do
+                                local filepath = bin_dir .. filename
+                                if vim.fn.isdirectory(filepath) == 0 then
+                                    executable_name = filename
+                                    break
+                                end
+                            end
+
+                            if not executable_name then
+                                vim.notify("Could not find executable in " .. bin_dir, vim.log.levels.ERROR)
+                                return nil
+                            end
+
+                            return bin_dir .. executable_name
+                        end,
+                    },
+                },
+            },
+        }
+
+        require("dap-lldb").setup(lldb_config)
+
 
         -- -- language keybindings
         nmap('<leader>dsl', function()
