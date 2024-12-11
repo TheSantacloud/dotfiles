@@ -26,6 +26,9 @@ autoload -Uz compinit && compinit
 # golang
 export PATH=$PATH:$(go env GOPATH)/bin
 
+# docker
+source <(docker completion zsh)
+
 # pnpm
 export PNPM_HOME="/Users/dormunis/Library/pnpm"
 case ":$PATH:" in

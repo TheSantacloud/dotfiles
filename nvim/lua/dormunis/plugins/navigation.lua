@@ -24,13 +24,31 @@ return {
         event = "VeryLazy",
         dependencies = {
             'nvim-lua/plenary.nvim',
+            { 'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release' }
         },
         config = function()
             require('telescope').setup {
+                pickers = {
+                    find_files = {
+                        theme = "ivy"
+                    },
+                    live_grep = {
+                        theme = "ivy"
+                    },
+                    grep_string = {
+                        theme = "ivy"
+                    }
+                },
+                extensions = {
+                    fzf = {}
+                },
                 defaults = {
                     file_ignore_patterns = { 'node_modules', 'vendor', '%.git', "%.png", "%.jpg", "%.gif", "%.webp" },
                 }
             }
+
+            require('telescope').load_extension('fzf')
+
             local builtin = require('telescope.builtin')
             local utils = require('telescope.utils')
 
