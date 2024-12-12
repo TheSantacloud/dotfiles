@@ -3,6 +3,7 @@ return {
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
         local trouble = require("trouble")
+        ---@diagnostic disable-next-line: missing-fields
         trouble.setup({
             icons = false,
         })
@@ -18,9 +19,11 @@ return {
         end
 
         vim.keymap.set("n", "<leader>xx", function()
+            ---@diagnostic disable-next-line: missing-fields
             trouble.toggle({ mode = "document_diagnostics" })
         end, opts({ desc = "Toggle trouble" }))
         vim.keymap.set("n", "<leader>xw", function()
+            ---@diagnostic disable-next-line: missing-fields
             trouble.toggle({ mode = "workspace_diagnostics" })
         end, opts({ desc = "Toggle trouble" }))
         vim.keymap.set("n", "]x", function()
