@@ -85,7 +85,13 @@ return {
                         end
                     end, { "i", "s" }),
 
-                    ["<Esc>"] = cmp.mapping.abort(),
+                    ["<C-e>"] = cmp.mapping(function(fallback)
+                        if cmp.visible() then
+                            cmp.mapping.abort()
+                        else
+                            fallback()
+                        end
+                    end, { "i", "s" }),
                 }),
                 sources = {
                     { name = "nvim_lsp" },
