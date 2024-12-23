@@ -35,14 +35,18 @@ return {
         dap.listeners.before.event_exited["dapui_config"] = function() dapui.close() end
 
         -- extensions
+        ---@diagnostic disable-next-line: missing-fields
         require("nvim-dap-virtual-text").setup({})
+
+        local git_root = vim.fn.finddir('.git', vim.fn.expand('%:p:h') .. ';')
+        local working_dir = git_root and git_root:gsub('/.git$', '') or vim.fn.getcwd()
 
         -- language plugins
         local python = require('dap-python')
         python.setup('~/.config/dap-virtualenvs/debugpy/bin/python')
 
-        local delve = require('dap-go')
-        delve.setup()
+        local dap_go = require('dap-go')
+        dap_go.setup()
 
         local lldb_config = {
             configurations = {
@@ -84,7 +88,6 @@ return {
 
         require("dap-lldb").setup(lldb_config)
 
-
         -- -- language keybindings
         nmap('<leader>dsl', function()
             local filetype = vim.api.nvim_get_option_value('filetype', { buf = 0 })
@@ -99,7 +102,7 @@ return {
             if filetype == 'python' then
                 python.test_method()
             elseif filetype == 'go' then
-                delve.debug_test()
+                dap_go.debug_test()
             end
         end, { desc = "Debug: function" }
         )

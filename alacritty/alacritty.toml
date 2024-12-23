@@ -95,9 +95,9 @@ bindings = [
     { chars = "\u0002z", key = "Z", mods = "Command" },
     { chars = "\u001B[1;9D", key = "Right", mods = "Command|Shift" },
     # Resize panes
-    { chars = "\u0002H", key = "H", mods = "Command|Shift" },
-    { chars = "\u0002J", key = "J", mods = "Command|Shift" },
-    { chars = "\u0002K", key = "K", mods = "Command|Shift" },
-    { chars = "\u0002L", key = "L", mods = "Command|Shift" },
+    # { chars = "\u0002H", key = "H", mods = "Alt|Command" },
+    # { chars = "\u0002J", key = "J", mods = "Alt|Command" },
+    # { chars = "\u0002K", key = "K", mods = "Alt|Command" },
+    # { chars = "\u0002L", key = "L", mods = "Alt|Command" },
 
 ]
