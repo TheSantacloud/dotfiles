@@ -14,100 +14,109 @@ return {
         end
     },
     {
-        'hrsh7th/nvim-cmp',
+        'saghen/blink.cmp',
         dependencies = {
-            'hrsh7th/cmp-nvim-lsp',
-            'saadparwaiz1/cmp_luasnip',
-            'hrsh7th/cmp-buffer',
-            'hrsh7th/cmp-path',
-            'hrsh7th/cmp-nvim-lsp-signature-help',
-            'onsails/lspkind.nvim',
-            {
-                'L3MON4D3/LuaSnip',
-                version = "2.*",
-                build = "make install_jsregexp"
-            },
+            'rafamadriz/friendly-snippets',
+            'giuxtaposition/blink-cmp-copilot',
+            'echasnovski/mini.icons',
         },
-        config = function()
-            local lspkind = require("lspkind")
-
-            local cmp = require("cmp")
-            local luasnip = require("luasnip")
-
-            luasnip.config.setup({})
-            require("luasnip.loaders.from_vscode").lazy_load()
-
-            cmp.setup({
-                snippet = {
-                    expand = function(args)
-                        luasnip.lsp_expand(args.body)
-                    end,
+        version = '*',
+        ---@module 'blink.cmp'
+        ---@type blink.cmp.Config
+        opts = {
+            completion = {
+                documentation = {
+                    auto_show = true,
+                    auto_show_delay_ms = 500,
                 },
-                ---@diagnostic disable-next-line: missing-fields
-                formatting = {
-                    format = lspkind.cmp_format({
-                        mode = "symbol_text",
-                        maxwidth = 50,
-                        ellipsis_char = '...',
-                        show_labelDetails = true,
-                    })
+                menu = {
+                    draw = {
+                        components = {
+                            kind_icon = {
+                                ellipsis = false,
+                                text = function(ctx)
+                                    local kind_icon, _, _ = require('mini.icons').get('lsp', ctx.kind)
+                                    return kind_icon
+                                end,
+                                highlight = function(ctx)
+                                    local _, hl, _ = require('mini.icons').get('lsp', ctx.kind)
+                                    return hl
+                                end,
+                            }
+                        }
+                    }
+                }
+            },
+            keymap = { preset = 'default' },
+            appearance = {
+                nerd_font_variant = 'mono',
+                kind_icons = {
+                    Copilot = "",
+                    Text = '󰉿',
+                    Method = '󰊕',
+                    Function = '󰊕',
+                    Constructor = '󰒓',
+
+                    Field = '󰜢',
+                    Variable = '󰆦',
+                    Property = '󰖷',
+
+                    Class = '󱡠',
+                    Interface = '󱡠',
+                    Struct = '󱡠',
+                    Module = '󰅩',
+
+                    Unit = '󰪚',
+                    Value = '󰦨',
+                    Enum = '󰦨',
+                    EnumMember = '󰦨',
+
+                    Keyword = '󰻾',
+                    Constant = '󰏿',
+
+                    Snippet = '󱄽',
+                    Color = '󰏘',
+                    File = '󰈔',
+                    Reference = '󰬲',
+                    Folder = '󰉋',
+                    Event = '󱐋',
+                    Operator = '󰪚',
+                    TypeParameter = '󰬛',
                 },
-                mapping = cmp.mapping.preset.insert({
-                    ['<CR>'] = cmp.mapping(function(fallback)
-                        if cmp.visible() then
-                            if luasnip.expandable() then
-                                luasnip.expand()
-                            else
-                                cmp.confirm({ select = true })
+            },
+            sources = {
+                default = { 'lsp', 'path', 'snippets', 'buffer', 'copilot' },
+                cmdline = {},
+                providers = {
+                    copilot = {
+                        name = "copilot",
+                        module = "blink-cmp-copilot",
+                        score_offset = 100,
+                        async = true,
+                        transform_items = function(_, items)
+                            local CompletionItemKind = require("blink.cmp.types").CompletionItemKind
+                            local kind_idx = #CompletionItemKind + 1
+                            CompletionItemKind[kind_idx] = "Copilot"
+                            for _, item in ipairs(items) do
+                                item.kind = kind_idx
                             end
-                        else
-                            fallback()
-                        end
-                    end),
-
-                    ["<Tab>"] = cmp.mapping(function(fallback)
-                        if cmp.visible() then
-                            cmp.select_next_item()
-                        elseif luasnip.locally_jumpable(1) then
-                            luasnip.jump(1)
-                        else
-                            fallback()
-                        end
-                    end, { "i", "s" }),
-
-                    ["<S-Tab>"] = cmp.mapping(function(fallback)
-                        if cmp.visible() then
-                            cmp.select_prev_item()
-                        elseif luasnip.locally_jumpable(-1) then
-                            luasnip.jump(-1)
-                        else
-                            fallback()
-                        end
-                    end, { "i", "s" }),
-
-                    ["<C-e>"] = cmp.mapping(function(fallback)
-                        if cmp.visible() then
-                            cmp.mapping.abort()
-                        else
-                            fallback()
-                        end
-                    end, { "i", "s" }),
-                }),
-                sources = {
-                    { name = "nvim_lsp" },
-                    { name = "luasnip" },
-                    { name = "path" },
-                    { name = "buffer" },
-                    { name = "nvim_lsp_signature_help" },
+                            return items
+                        end,
+                    },
                 },
-            })
-        end
+
+            },
+            signature = { enabled = true }
+        },
+        opts_extend = { "sources.default" }
     },
     {
-        "github/copilot.vim",
+        "zbirenbaum/copilot.lua",
         config = function()
-            vim.api.nvim_set_keymap("i", "<C-y>", 'copilot#Accept("<CR>")', { silent = true, expr = true })
-            vim.g.copilot_no_tab_map = true
+            require("copilot").setup({
+                suggestion = { enabled = false },
+                panel = { enabled = false },
+            })
         end,
     }
 }
