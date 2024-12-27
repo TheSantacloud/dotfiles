@@ -3,6 +3,7 @@ return {
     dependencies = {
         { "williamboman/mason.nvim", config = true },
         { "j-hui/fidget.nvim",       opts = {} },
+        { 'saghen/blink.cmp' },
         "williamboman/mason-lspconfig.nvim",
         "folke/neodev.nvim",
         "nvimtools/none-ls.nvim",
@@ -88,9 +89,7 @@ return {
 
         require("neodev").setup()
 
-        local capabilities = vim.lsp.protocol.make_client_capabilities()
-        capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
-        capabilities.textDocument.completion.completionItem.snippetSupport = true
+        local capabilities = require('blink.cmp').get_lsp_capabilities()
 
         require("mason").setup({
             ui = {
