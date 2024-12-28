@@ -1,0 +1,38 @@
+font-family = "Hack Nerd Font"
+font-size = 18
+font-feature = -liga
+
+shell-integration = zsh
+initial-command = /bin/zsh -c '[ -n "$(tmux list-sessions 2>/dev/null)" ] && tmux attach || tmux'
+
+
+background = #19191A
+window-decoration = false
+window-padding-color = background
+confirm-close-surface = false
+window-padding-y = 0
+
+# tmux new window
+keybind = super+t=text:\x02c
+
+# tmux choose-session
+keybind = super+p=text:\x02s
+
+# tmux split panes
+keybind = super+d=text:\x02|
+keybind = super+shift+d=text:\x02_
+
+# tmux navigate split panes
+keybind = super+left_bracket=text:\x02;
+keybind = super+right_bracket=text:\x02o
+
+# tmux select window
+keybind = super+one=text:\x021
+keybind = super+two=text:\x022
+keybind = super+three=text:\x023
+keybind = super+four=text:\x024
+keybind = super+five=text:\x025
+keybind = super+six=text:\x026
+keybind = super+seven=text:\x027
+keybind = super+eight=text:\x028
+keybind = super+nine=text:\x029
