@@ -26,7 +26,7 @@ alt + ctrl + cmd - p        : yabai -m window --focus stack.prev || yabai -m win
 
 # app shortcuts
 alt + ctrl + cmd - u : open -a "Arc"
+alt + ctrl + cmd - i : open -a "Ghostty"
 alt + ctrl + cmd - o : open -a "Obsidian"
 alt + ctrl + cmd - t : open -a "Todoist"
-alt + ctrl + cmd - i : open -a "Alacritty"
 

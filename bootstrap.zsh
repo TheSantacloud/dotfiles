@@ -50,14 +50,14 @@ ln -s "$dotfilesdir/zsh/.zshrc" ~/.zshrc
 ln -s "$dotfilesdir/tmux" ~/.config/tmux
 ln -s "$dotfilesdir/tmux/.tmux.conf" ~/.tmux.conf
 ln -s "$dotfilesdir/nvim" ~/.config/nvim
-ln -s "$dotfilesdir/alacritty" ~/.config/alacritty
+ln -s "$dotfilesdir/ghostty" ~/.config/alacritty
 ln -s "$dotfilesdir/yabai" ~/.config/yabai
 ln -s "$dotfilesdir/skhd" ~/.config/skhd
 
 # setup python
-echo "installing python 3.11"
-pyenv install 3.11
-pyenv global 3.11
+echo "installing python 3.13
+pyenv install 3.13
+pyenv global 3.13
 mkdir "$dotfilesdir/dap-virtualenvs"
 cd python -m venv debugpy "$dotfilesdir/dap-virtualenvs"
 $dotfilesdir/debugpy/bin/pip install debugpy
@@ -67,10 +67,6 @@ ln -s "$dotfilesdir/dap-virtualenvs" ~/.config/dap-virtualenvs
 mkdir ~/dev/jupyter-notebooks
 python -m venv ~/Library/Caches/pypoetry/virtualenvs/jupyter
 source ~/Library/Caches/pypoetry/virtualenvs/jupyter/bin/pip3 install jupyterlab jupyterthemes jupyterlab-vim
-
-# install bun
-echo "installing bun"
-curl -fsSL https://bun.sh/install | sh
 
 # install rust
 echo "installing rust latest version"
