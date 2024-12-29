@@ -5,12 +5,17 @@ font-feature = -liga
 shell-integration = zsh
 initial-command = /bin/zsh -c '[ -n "$(tmux list-sessions 2>/dev/null)" ] && tmux attach || tmux'
 
-
 background = #19191A
 window-decoration = false
 window-padding-color = background
 confirm-close-surface = false
 window-padding-y = 0
+
+# quick terminal
+quick-terminal-screen = main
+quick-terminal-animation-duration = 0
+quick-terminal-autohide = true
+keybind = global:super+escape=toggle_quick_terminal
 
 # tmux new window
 keybind = super+t=text:\x02c
@@ -36,3 +41,4 @@ keybind = super+six=text:\x026
 keybind = super+seven=text:\x027
 keybind = super+eight=text:\x028
 keybind = super+nine=text:\x029
+
