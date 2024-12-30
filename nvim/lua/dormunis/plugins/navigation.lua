@@ -1,3 +1,4 @@
+---@diagnostic disable: missing-fields
 return {
     {
         "folke/todo-comments.nvim",
@@ -13,10 +14,10 @@ return {
             vim.keymap.set("n", "]t", function()
                 require("todo-comments").jump_next()
             end, { desc = "Next todo comment" }),
-
             vim.keymap.set("n", "[t", function()
                 require("todo-comments").jump_prev()
             end, { desc = "Previous todo comment" }),
+
         }
     },
     {
