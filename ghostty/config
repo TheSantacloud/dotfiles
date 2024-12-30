@@ -44,5 +44,5 @@ keybind = super+eight=text:\x028
 keybind = super+nine=text:\x029
 
 # option+j/k for history navigation
-keybind = alt+j=csi:A
-keybind = alt+k=csi:B
+keybind = alt+k=csi:A
+keybind = alt+j=csi:B
