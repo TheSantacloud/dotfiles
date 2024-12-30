@@ -22,6 +22,7 @@ keybind = super+t=text:\x02c
 
 # tmux choose-session
 keybind = super+p=text:\x02s
+keybind = super+l=text:\x02L
 
 # tmux split panes
 keybind = super+d=text:\x02|
