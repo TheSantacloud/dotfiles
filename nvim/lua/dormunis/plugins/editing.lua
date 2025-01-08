@@ -1,4 +1,9 @@
+local cmp_providers = { 'lsp', 'path', 'snippets', 'buffer', 'copilot' }
 return {
+    {
+        "preservim/vimux",
+        lazy = false,
+    },
     {
         "kylechui/nvim-surround",
         version = "*",
@@ -30,6 +35,7 @@ return {
                     auto_show_delay_ms = 500,
                 },
                 menu = {
+                    auto_show = false,
                     draw = {
                         components = {
                             kind_icon = {
@@ -47,7 +53,16 @@ return {
                     }
                 }
             },
-            keymap = { preset = 'default' },
+            keymap = {
+                preset = 'default',
+                ['<C-space>'] = { function(cmp) cmp.show({ providers = cmp_providers }) end },
+                ['<C-n>'] = { function(cmp)
+                    vim.schedule(function() require('blink.cmp.completion.list').select_next({ auto_insert = true }) end)
+                end },
+                ['<C-p>'] = { function(cmp)
+                    vim.schedule(function() require('blink.cmp.completion.list').select_prev({ auto_insert = true }) end)
+                end },
+            },
             appearance = {
                 nerd_font_variant = 'mono',
                 kind_icons = {
@@ -85,7 +100,7 @@ return {
                 },
             },
             sources = {
-                default = { 'lsp', 'path', 'snippets', 'buffer', 'copilot' },
+                default = cmp_providers,
                 cmdline = {},
                 providers = {
                     copilot = {
