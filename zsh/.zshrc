@@ -26,11 +26,14 @@ autoload -Uz compinit && compinit
 # golang
 export PATH=$PATH:$(go env GOPATH)/bin
 
+# platformio
+export PATH=$PATH:${HOME}/.platformio/packages/toolchain-xtensa/bin
+
 # docker
 source <(docker completion zsh)
 
 # pnpm
-export PNPM_HOME="/Users/dormunis/Library/pnpm"
+export PNPM_HOME="${HOME}/Library/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
@@ -55,10 +58,8 @@ if [ $PROFILING_MODE -ne 0 ]; then
     zprof
 fi
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/dormunis/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/dormunis/Downloads/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/dormunis/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/dormunis/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+# google sdk
+if [ -f "${HOME}/Downloads/google-cloud-sdk/path.zsh.inc" ]; then . "${HOME}/Downloads/google-cloud-sdk/path.zsh.inc"; fi
+if [ -f "${HOME}/Downloads/google-cloud-sdk/completion.zsh.inc" ]; then . "${HOME}/Downloads/google-cloud-sdk/completion.zsh.inc"; fi
 
 desc
