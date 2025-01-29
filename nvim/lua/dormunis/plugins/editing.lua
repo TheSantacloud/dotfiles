@@ -39,7 +39,6 @@ return {
           auto_show_delay_ms = 500,
         },
         menu = {
-          auto_show = false,
           draw = {
             components = {
               kind_icon = {
@@ -60,21 +59,6 @@ return {
       keymap = {
         preset = 'default',
         ['<C-space>'] = {},
-        ['<Tab>'] = {},
-        ['<C-i>'] = { function(cmp)
-          if cmp.is_visible() then
-            cmp.cancel({})
-            cmp.hide({})
-          else
-            cmp.show({ providers = { 'lsp', 'path', 'snippets', 'buffer' } })
-          end
-        end },
-        ['<C-n>'] = { function(cmp)
-          vim.schedule(function() require('blink.cmp.completion.list').select_next({ auto_insert = true }) end)
-        end },
-        ['<C-p>'] = { function(cmp)
-          vim.schedule(function() require('blink.cmp.completion.list').select_prev({ auto_insert = true }) end)
-        end },
       },
       appearance = {
         nerd_font_variant = 'mono',
