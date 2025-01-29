@@ -60,6 +60,7 @@ return {
       keymap = {
         preset = 'default',
         ['<C-space>'] = {},
+        ['<Tab>'] = {},
         ['<C-i>'] = { function(cmp)
           if cmp.is_visible() then
             cmp.cancel({})
