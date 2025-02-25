@@ -65,7 +65,6 @@ return {
       },
       sources = {
         default = { "buffer", "lsp" },
-        cmdline = {},
       },
       signature = { enabled = true }
     },
