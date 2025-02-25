@@ -1,4 +1,5 @@
 vim.bo.shiftwidth = 2
+vim.bo.commentstring = "// %s"
 
 local project_root = vim.fn.getcwd()
 local pio_file = project_root .. "/platformio.ini"
@@ -86,26 +87,13 @@ local compile = function(config)
   vim.cmd('VimuxRunCommand "' .. command .. '"')
 end
 
----@param config PlatformIOConfig|nil
-local monitor = function(config)
-  if not config or not config.envs then
-    vim.cmd('VimuxRunCommand "pio device monitor"')
-    return
-  end
-  --NOTE: for now, just pick the first env
-  local _, env = next(config.envs)
-  local upload_port = env.upload_port
-  local monitor_speed = env.monitor_speed
-  vim.cmd('VimuxRunCommand "arduino-cli monitor -p' .. upload_port .. ' --config ' .. monitor_speed .. '"')
-end
-
-local compiledb = function()
-  vim.cmd('VimuxRunCommand "pio run --target compiledb"')
-end
-
 if file_exists(pio_file) then
   local config = parse_platformio_ini(pio_file)
   vim.keymap.set('n', '<space><space>r', function() upload(config) end)
   vim.keymap.set('n', '<space><space>c', function() compile(config) end)
-  vim.keymap.set('n', '<space><space>m', function() monitor(config) end)
+  vim.keymap.set('n', '<space><space>m', function() vim.cmd('VimuxRunCommand "pio device monitor"') end)
+
+  vim.api.nvim_create_user_command("CompileDB", function()
+    vim.cmd("!pio run --target compiledb")
+  end, {})
 end

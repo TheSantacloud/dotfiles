@@ -3,7 +3,6 @@ alias ll="ls -lah"
 alias vim=nvim
 alias lvim="nvim -c':e#<1'"
 alias a="alias | fzf"
-alias s="poetry shell"
 alias zbr="zig build run"
 alias zbt="zig build test"
 alias jk="pgrep -f 'jupyter' | xargs kill"
@@ -14,4 +13,9 @@ else \
   jupyter notebook --notebook-dir="~/dev/jupyter-notebooks" --port=18733 > ~/jupyter.log 2>&1 & \
 fi'
 
+s() {
+  if [ -f "pyproject.toml" ]; then
+    $(poetry env activate)
+  fi
+}
 

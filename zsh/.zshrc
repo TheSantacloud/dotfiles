@@ -26,6 +26,9 @@ autoload -Uz compinit && compinit
 # golang
 export PATH=$PATH:$(go env GOPATH)/bin
 
+# python (uv)
+source "$HOME/.local/bin/env"
+
 # platformio
 export PATH=$PATH:${HOME}/.platformio/packages/toolchain-xtensa/bin
 
@@ -63,3 +66,4 @@ if [ -f "${HOME}/Downloads/google-cloud-sdk/path.zsh.inc" ]; then . "${HOME}/Dow
 if [ -f "${HOME}/Downloads/google-cloud-sdk/completion.zsh.inc" ]; then . "${HOME}/Downloads/google-cloud-sdk/completion.zsh.inc"; fi
 
 desc
+

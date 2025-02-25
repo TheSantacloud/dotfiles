@@ -45,7 +45,8 @@ return {
         python = {
           analysis = {
             autoSearchPaths = true,
-            typeCheckingMode = "off",
+            typeCheckingMode = "basic",
+            reportMissingTypeStubs = false,
             useLibraryCodeForTypes = true,
             diagnosticMode = "workspace",
           },
