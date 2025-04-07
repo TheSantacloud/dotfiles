@@ -25,6 +25,7 @@ end
 
 local function run()
   if exists("Package.swift") then
+    build()
     local app_bundle = get_app_bundle_name()
     vim.cmd("!open " .. app_bundle)
   else
