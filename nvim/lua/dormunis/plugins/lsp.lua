@@ -36,7 +36,7 @@ return {
     end
 
     local servers = {
-      gopls = {},
+      -- gopls = {},
       terraformls = {
         cmd = { "terraform-ls", "serve" },
       },
@@ -57,7 +57,7 @@ return {
       sqlls = {},
       helm_ls = {},
       zls = {},
-      golangci_lint_ls = {},
+      -- golangci_lint_ls = {},
       clangd = {},
       lua_ls = {
         Lua = {
