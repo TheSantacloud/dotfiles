@@ -63,6 +63,9 @@ return {
       appearance = {
         nerd_font_variant = 'mono',
       },
+      cmdline = {
+        sources = {},
+      },
       sources = {
         default = { "buffer", "lsp" },
       },

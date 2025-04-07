@@ -17,8 +17,7 @@ yabai -m config layout                      bsp             \
 # disable window apps
 yabai -m rule --add app="^Zoom.us$" manage=off
 yabai -m rule --add app="^Docker Desktop$" manage=off
-yabai -m rule --add app="^Alfred Preferences$" manage=off
-yabai -m rule --add app="^dev:.*" manage=off
+yabai -m rule --add app="^dev:.*" title=".*" manage=off
 # disable system apps
 yabai -m rule --add app="^System Settings$" manage=off
 yabai -m rule --add app="^System Information$" manage=off
