@@ -35,11 +35,11 @@ keymap("n", "Q", "<nop>", opts)
 
 -- quickfix actions
 keymap("n", "<leader>q", function() -- toggle quickfix
-    if vim.bo.filetype == "qf" then
-        vim.cmd("cclose")
-    else
-        vim.cmd("copen")
-    end
+  if vim.bo.filetype == "qf" then
+    vim.cmd("cclose")
+  else
+    vim.cmd("copen")
+  end
 end, opts)
 keymap("n", "]q", ":cnext<CR>", opts) -- next quickfix
 keymap("n", "[q", ":cprev<CR>", opts) -- previous quickfix
@@ -52,6 +52,3 @@ keymap("v", "<leader>y", [["+y]], opts)
 
 -- copy entire file to clipboard
 keymap("n", "<leader>y", ":%y+<CR>", opts)
-
--- source current file
-keymap("n", "<leader><leader>x", ":w<CR>:source %<CR>", opts)
