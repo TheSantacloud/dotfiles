@@ -4,10 +4,13 @@ local function exists(path)
   return vim.fn.filereadable(path) == 1 or vim.fn.isdirectory(path) == 1
 end
 
-local function get_app_bundle_name()
-  local app_name = vim.fn.system(
+local function get_app_name()
+  return vim.fn.system(
     "swift package describe --type json | jq -r '.targets[] | select(.type == \"executable\") | .name'"):gsub("%s+$",
     "")
+end
+
+local function get_app_bundle_name(app_name)
   return ".build/debug/dev:" .. app_name .. ".app"
 end
 
@@ -17,17 +20,26 @@ local function build()
       vim.fn.system({ "curl", "-fsSL", "-o", "build.sh", GIST_URL })
       vim.fn.system({ "chmod", "+x", "build.sh" })
     end
-    vim.cmd("!./build.sh")
+
+    local output = vim.fn.systemlist("./build.sh")
+    for _, line in ipairs(output) do
+      print(line)
+    end
   else
-    vim.cmd("!swift build")
+    local output = vim.fn.systemlist("swift build")
+    for _, line in ipairs(output) do
+      print(line)
+    end
   end
 end
 
 local function run()
   if exists("Package.swift") then
     build()
-    local app_bundle = get_app_bundle_name()
-    vim.cmd("!open " .. app_bundle)
+    local app_name = get_app_name()
+    local app_bundle = get_app_bundle_name(app_name)
+    local path = app_bundle .. "/Contents/MacOS/dev:" .. app_name
+    vim.cmd('VimuxRunCommand "' .. path .. '"')
   else
     vim.cmd("!swift run")
   end

@@ -63,9 +63,6 @@ return {
       appearance = {
         nerd_font_variant = 'mono',
       },
-      cmdline = {
-        sources = {},
-      },
       sources = {
         default = { "buffer", "lsp" },
       },
@@ -74,18 +71,15 @@ return {
     opts_extend = { "sources.default" }
   },
   {
-    "zbirenbaum/copilot.lua",
+
+    "supermaven-inc/supermaven-nvim",
     config = function()
-      require("copilot").setup({
-        panel = { enabled = false },
-        suggestion = {
-          enabled = true,
-          auto_trigger = true,
-          keymap = {
-            accept = "<C-space>",
-            dismiss = "Esc",
-          },
-        },
+      require("supermaven-nvim").setup({
+        keymaps = {
+          accept_suggestion = "<C-space>",
+          clear_suggestion = "Esc",
+          accept_word = "<C-shift-space>",
+        }
       })
     end,
   }

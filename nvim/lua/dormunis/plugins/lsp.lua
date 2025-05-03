@@ -36,7 +36,6 @@ return {
     end
 
     local servers = {
-      -- gopls = {},
       terraformls = {
         cmd = { "terraform-ls", "serve" },
       },
@@ -55,9 +54,9 @@ return {
       rust_analyzer = {},
       html = {},
       sqlls = {},
+      gopls = {},
       helm_ls = {},
       zls = {},
-      -- golangci_lint_ls = {},
       clangd = {},
       lua_ls = {
         Lua = {
@@ -69,10 +68,12 @@ return {
         },
         workspace = {
           library = vim.api.nvim_get_runtime_file("", true),
-          checkThirdParty = false,
         },
       },
     }
+
+    local lspconfig = require("lspconfig")
+    require("neodev").setup()
 
     -- tfvars bugfix for terraform-ls. This is a temporary fix for neovim 0.9.0
     vim.api.nvim_create_autocmd("BufReadPost", {
@@ -95,10 +96,7 @@ return {
       end,
     })
 
-    require("neodev").setup()
-
-    local capabilities = require('blink.cmp').get_lsp_capabilities()
-
+    -- mason
     require("mason").setup({
       ui = {
         border = "rounded",
@@ -109,18 +107,32 @@ return {
         },
       },
     })
+    local mason_lspconfig = require("mason-lspconfig")
+    local blink_capabilities = require('blink.cmp').get_lsp_capabilities()
+    mason_lspconfig.setup({
+      automatic_installation = true,
+      ensure_installed = vim.tbl_keys(servers),
+    })
+    mason_lspconfig.setup_handlers({
+      function(server_name)
+        require("lspconfig")[server_name].setup({
+          capabilities = blink_capabilities,
+          on_attach = on_attach,
+          settings = servers[server_name],
+        })
+      end,
+    })
 
+
+    -- null-ls
     local null_ls = require("null-ls")
-
     local prettier_root_files = { ".prettierrc", ".prettierrc.js", ".prettierrc.json" }
     local stylua_root_files = { "stylua.toml", ".stylua.toml" }
-
     local root_has_file = function(files)
       return function(utils)
         return utils.root_has_file(files)
       end
     end
-
     local opts = {
       prettier_formatting = {
         condition = root_has_file(prettier_root_files),
@@ -129,7 +141,6 @@ return {
         condition = root_has_file(stylua_root_files),
       },
     }
-
     null_ls.setup({
       sources = {
         null_ls.builtins.formatting.prettier.with(opts.prettier_formatting),
@@ -138,22 +149,17 @@ return {
       },
     })
 
-    local mason_lspconfig = require("mason-lspconfig")
-
-    mason_lspconfig.setup({
-      automatic_installation = true,
-      ensure_installed = vim.tbl_keys(servers),
-    })
-
-    mason_lspconfig.setup_handlers({
-      function(server_name)
-        require("lspconfig")[server_name].setup({
-          capabilities = capabilities,
-          on_attach = on_attach,
-          settings = servers[server_name],
-        })
-      end,
-    })
+    -- sourcekit
+    lspconfig.sourcekit.setup {
+      filetypes = { "swift", "objective-c", "objective-cpp" },
+      capabilities = {
+        workspace = {
+          didChangeWatchedFiles = {
+            dynamicRegistration = true,
+          },
+        },
+      },
+    }
 
     -- auto format
     local format_is_enabled = true
@@ -183,7 +189,6 @@ return {
         if client ~= nil and not client.server_capabilities.documentFormattingProvider then
           return
         end
-
         vim.api.nvim_create_autocmd("BufWritePre", {
           group = get_augroup(client),
           buffer = bufnr,
@@ -191,10 +196,12 @@ return {
             if not format_is_enabled then
               return
             end
-
             vim.lsp.buf.format({
               async = false,
               filter = function(c)
+                if client == nil then
+                  return true
+                end
                 return c.id == client.id
               end,
             })

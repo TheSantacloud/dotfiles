@@ -21,58 +21,47 @@ return {
     }
   },
   {
-    'nvim-telescope/telescope.nvim',
+    "ibhagwan/fzf-lua",
     event = "VeryLazy",
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      { 'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release' }
-    },
-    config = function()
-      require('telescope').setup {
-        pickers = {
-          find_files = {
-            theme = "ivy"
-          },
-          live_grep = {
-            theme = "ivy"
-          },
-          grep_string = {
-            theme = "ivy"
-          }
-        },
-        extensions = {
-          fzf = {}
-        },
-        defaults = {
-          file_ignore_patterns = { 'node_modules', 'vendor', '%.git', "%.png", "%.jpg", "%.gif", "%.webp" },
+    dependencies = { "echasnovski/mini.icons" },
+    opts = {
+      files = {
+        prompt = "Files> ",
+        fd_opts = "--color=never --hidden --exclude .git --exclude node_modules --exclude vendor",
+      },
+      grep = {
+        prompt = "Grep> ",
+        rg_opts = "--color=never --hidden --exclude .git --exclude node_modules --exclude vendor",
+      },
+      keymap = {
+        builtin = {
         }
       }
-
-      require('telescope').load_extension('fzf')
-
-      local builtin = require('telescope.builtin')
-      local utils = require('telescope.utils')
-
-      -- project navigation
-      vim.keymap.set('n', '<leader><tab>', function() builtin.find_files({ hidden = true }) end,
-        { desc = 'Find files (filtered to roughly relevant files)' })
-      vim.keymap.set('n', '<leader>ff', builtin.git_files, { desc = 'Find files in git repo' })
-      vim.keymap.set('n', '<leader>gl', builtin.git_commits, { desc = 'Git log (telescope)' })
-      vim.keymap.set('n', '<leader>gL', builtin.git_bcommits, { desc = 'Git log for current buffer (telescope)' })
-      vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Find currently running buffers' })
-      vim.keymap.set('n', '<leader>fr', function() builtin.oldfiles({ cwd = utils.buffer_dir() }) end,
-        { desc = 'Find recently opened files' })
-      vim.keymap.set('n', '<leader>fc', builtin.current_buffer_fuzzy_find, { desc = 'Find in Current buffer' })
-      vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Find Grep on all files from project root' })
-      vim.keymap.set('n', '<leader>fd', builtin.lsp_workspace_symbols, { desc = 'Document symbols for entire workspace' })
-      vim.keymap.set('n', '<leader>fw', function()
-        builtin.grep_string({ search = vim.fn.expand('<cword>') })
-      end, { desc = 'Find Word - fuzzy search word under cursor' })
-
-      -- telescope builtin help
-      vim.keymap.set('n', '<leader>hh', builtin.help_tags, { desc = 'Find Help - fuzzy search help' })
-      vim.keymap.set('n', '<leader>hk', builtin.keymaps, { desc = 'Find Keymaps - fuzzy search keymaps' })
-    end,
+    },
+    config = function()
+      local fzf = require("fzf-lua")
+      fzf.setup({
+        "hide",
+        keymap = {
+          fzf = {
+            ["ctrl-q"] = "select-all+accept",
+          },
+        },
+      })
+      local map = vim.keymap.set
+      map('n', '<leader><tab>', fzf.files, { desc = 'Find files (hidden included)' })
+      map('n', '<leader>ff', fzf.git_files, { desc = 'Find git-tracked files' })
+      map('n', '<leader>fb', fzf.buffers, { desc = 'Open buffers' })
+      map('n', '<leader>fr', fzf.oldfiles, { desc = 'Recently opened files' })
+      map('n', '<leader>fg', fzf.live_grep, { desc = 'Live grep project' })
+      map('n', '<leader>fw', fzf.grep_cword, { desc = 'Grep word under cursor' })
+      map('n', '<leader>gl', fzf.git_commits, { desc = 'Git commits' })
+      map('n', '<leader>gL', fzf.git_bcommits, { desc = 'Git commits (current buffer)' })
+      map('n', '<leader>fd', fzf.lsp_workspace_symbols, { desc = 'LSP workspace symbols' })
+      map('n', '<leader>fc', fzf.blines, { desc = 'Search in current buffer' })
+      map('n', '<leader>hh', fzf.help_tags, { desc = 'Help tags' })
+      map('n', '<leader>hk', fzf.keymaps, { desc = 'Keymaps' })
+    end
   },
   {
     'ThePrimeagen/harpoon',
