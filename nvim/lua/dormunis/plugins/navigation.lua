@@ -33,10 +33,6 @@ return {
         prompt = "Grep> ",
         rg_opts = "--color=never --hidden --exclude .git --exclude node_modules --exclude vendor",
       },
-      keymap = {
-        builtin = {
-        }
-      }
     },
     config = function()
       local fzf = require("fzf-lua")
@@ -57,7 +53,8 @@ return {
       map('n', '<leader>fw', fzf.grep_cword, { desc = 'Grep word under cursor' })
       map('n', '<leader>gl', fzf.git_commits, { desc = 'Git commits' })
       map('n', '<leader>gL', fzf.git_bcommits, { desc = 'Git commits (current buffer)' })
-      map('n', '<leader>fd', fzf.lsp_workspace_symbols, { desc = 'LSP workspace symbols' })
+      map('n', '<leader>fD', fzf.lsp_workspace_symbols, { desc = 'LSP workspace symbols' })
+      map('n', '<leader>fd', fzf.lsp_document_symbols, { desc = 'LSP document symbols' })
       map('n', '<leader>fc', fzf.blines, { desc = 'Search in current buffer' })
       map('n', '<leader>hh', fzf.help_tags, { desc = 'Help tags' })
       map('n', '<leader>hk', fzf.keymaps, { desc = 'Keymaps' })
@@ -110,5 +107,22 @@ return {
       require("oil").setup()
       vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
     end,
+  },
+  {
+    "christoomey/vim-tmux-navigator",
+    cmd = {
+      "TmuxNavigateLeft",
+      "TmuxNavigateDown",
+      "TmuxNavigateUp",
+      "TmuxNavigateRight",
+      "TmuxNavigatePrevious",
+    },
+    keys = {
+      { "<c-h>",  "<cmd><C-U>TmuxNavigateLeft<cr>" },
+      { "<c-j>",  "<cmd><C-U>TmuxNavigateDown<cr>" },
+      { "<c-k>",  "<cmd><C-U>TmuxNavigateUp<cr>" },
+      { "<c-l>",  "<cmd><C-U>TmuxNavigateRight<cr>" },
+      { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
+    },
   }
 }
