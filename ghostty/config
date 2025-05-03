@@ -11,12 +11,6 @@ window-padding-color = background
 confirm-close-surface = false
 window-padding-y = 0
 
-# quick terminal
-quick-terminal-screen = main
-quick-terminal-animation-duration = 0
-quick-terminal-autohide = true
-keybind = global:super+escape=toggle_quick_terminal
-
 # tmux new window
 keybind = super+t=text:\x02c
 

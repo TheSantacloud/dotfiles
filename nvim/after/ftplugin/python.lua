@@ -37,17 +37,21 @@ local function execute_python_snippet(code, opts)
   end
 end
 
-local function prep_poetry_session()
+local function run_python_file(path)
+  local cmd = 'VimuxRunCommand "poetry run python ' .. path .. '"'
+  if vim.fn.executable("poetry") ~= 1 or
+      vim.loop.fs_stat(vim.loop.cwd() .. "/" .. "poetry.lock") == nil then
+    cmd = 'VimuxRunCommand "python ' .. path .. '"'
+  end
+  vim.cmd('VimuxRunCommand "poetry run python ' .. path .. '"')
+end
+
+local function activate_poetry_shell(path)
   if vim.fn.executable("poetry") ~= 1 or
       vim.loop.fs_stat(vim.loop.cwd() .. "/" .. "poetry.lock") == nil then
     return
   end
-  vim.cmd([[VimuxRunCommand "\[\[ $VIRTUAL_ENV != *poetry* \]\] && poetry shell"]])
-end
-
-local function run_python_file(path)
-  prep_poetry_session()
-  vim.cmd('VimuxRunCommand "python ' .. path .. '"')
+  vim.cmd('VimuxRunCommand "$(poetry env activate)"')
 end
 
 vim.keymap.set('n', '<space><space>r', function()
@@ -59,4 +63,9 @@ vim.keymap.set('v', '<space><space>r', function()
   local code = get_selected_code()
   local python_bin = get_python_bin()
   execute_python_snippet(code, { bin = python_bin })
+end)
+
+vim.keymap.set('n', '<space><space>s', function()
+  local filepath = vim.fn.expand('%:p')
+  activate_poetry_shell(filepath)
 end)
