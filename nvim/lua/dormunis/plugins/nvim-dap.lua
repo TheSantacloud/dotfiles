@@ -1,118 +1,115 @@
 local nmap = function(key, fn, desc)
-    vim.keymap.set('n', key, fn, desc)
+  vim.keymap.set('n', key, fn, desc)
 end
 
 return {
-    'mfussenegger/nvim-dap',
-    dependencies = {
-        "mfussenegger/nvim-dap-python",
-        "leoluz/nvim-dap-go",
-        "julianolf/nvim-dap-lldb",
-        "rcarriga/nvim-dap-ui",
-        "nvim-neotest/nvim-nio",
-        "theHamsta/nvim-dap-virtual-text",
-    },
-    config = function()
-        local dap = require("dap")
-        -- keybindings
-        nmap('<leader>dr', function() dap.continue() end, { desc = "Debug: continue" })
-        nmap('<leader>dso', function() dap.step_over() end, { desc = "Debug: step over" })
-        nmap('<leader>dsi', function() dap.step_into() end, { desc = "Debug: step into" })
-        nmap('<leader>dsb', function() dap.step_out() end, { desc = "Debug: step out/back" })
-        nmap('<leader>db', function() dap.toggle_breakpoint() end, { desc = "Debug: toggle breakpoint" })
-        nmap('<leader>dc',
-            function() dap.set_breakpoint(vim.fn.input('Breakpoint point message: ')) end,
-            { desc = "Debug: conditional breakpoint" })
-        nmap('<leader>dl',
-            function() dap.set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end,
-            { desc = "Debug: log point" })
+  'mfussenegger/nvim-dap',
+  dependencies = {
+    "mfussenegger/nvim-dap-python",
+    "leoluz/nvim-dap-go",
+    "julianolf/nvim-dap-lldb",
+    "rcarriga/nvim-dap-ui",
+    "nvim-neotest/nvim-nio",
+    "theHamsta/nvim-dap-virtual-text",
+  },
+  config = function()
+    local dap = require("dap")
+    -- keybindings
+    nmap('<leader>dr', function() dap.continue() end, { desc = "Debug: continue" })
+    nmap('<leader>dso', function() dap.step_over() end, { desc = "Debug: step over" })
+    nmap('<leader>dsi', function() dap.step_into() end, { desc = "Debug: step into" })
+    nmap('<leader>dsb', function() dap.step_out() end, { desc = "Debug: step out/back" })
+    nmap('<leader>db', function() dap.toggle_breakpoint() end, { desc = "Debug: toggle breakpoint" })
+    nmap('<leader>dc',
+      function() dap.set_breakpoint(vim.fn.input('Breakpoint point message: ')) end,
+      { desc = "Debug: conditional breakpoint" })
+    nmap('<leader>dl',
+      function() dap.set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end,
+      { desc = "Debug: log point" })
 
-        local dapui = require("dapui")
-        dapui.setup()
-        -- ui auto-hook
-        dap.listeners.after.event_initialized["dapui_config"] = function() dapui.open() end
-        dap.listeners.before.event_terminated["dapui_config"] = function() dapui.close() end
-        dap.listeners.before.event_exited["dapui_config"] = function() dapui.close() end
+    local dapui = require("dapui")
+    dapui.setup()
+    -- ui auto-hook
+    dap.listeners.after.event_initialized["dapui_config"] = function() dapui.open() end
+    dap.listeners.before.event_terminated["dapui_config"] = function() dapui.close() end
+    dap.listeners.before.event_exited["dapui_config"] = function() dapui.close() end
 
-        -- extensions
-        ---@diagnostic disable-next-line: missing-fields
-        require("nvim-dap-virtual-text").setup({})
+    -- extensions
+    ---@diagnostic disable-next-line: missing-fields
+    require("nvim-dap-virtual-text").setup({})
 
-        local git_root = vim.fn.finddir('.git', vim.fn.expand('%:p:h') .. ';')
-        local working_dir = git_root and git_root:gsub('/.git$', '') or vim.fn.getcwd()
+    -- language plugins
+    local python = require('dap-python')
+    python.setup('~/.config/dap-virtualenvs/debugpy/bin/python')
 
-        -- language plugins
-        local python = require('dap-python')
-        python.setup('~/.config/dap-virtualenvs/debugpy/bin/python')
+    local dap_go = require('dap-go')
+    dap_go.setup()
 
-        local dap_go = require('dap-go')
-        dap_go.setup()
+    local lldb_config = {
+      configurations = {
+        zig = {
+          {
+            name = "Launch debugger",
+            type = "lldb",
+            request = "launch",
+            cwd = "${workspaceFolder}",
+            program = function()
+              local out = vim.fn.system({ "zig", "build", "-Doptimize=Debug" })
+              if vim.v.shell_error ~= 0 then
+                vim.notify(out, vim.log.levels.ERROR)
+                return nil
+              end
 
-        local lldb_config = {
-            configurations = {
-                zig = {
-                    {
-                        name = "Launch debugger",
-                        type = "lldb",
-                        request = "launch",
-                        cwd = "${workspaceFolder}",
-                        program = function()
-                            local out = vim.fn.system({ "zig", "build", "-Doptimize=Debug" })
-                            if vim.v.shell_error ~= 0 then
-                                vim.notify(out, vim.log.levels.ERROR)
-                                return nil
-                            end
+              local bin_dir = "./zig-out/bin/"
+              local executable_name = nil
 
-                            local bin_dir = "./zig-out/bin/"
-                            local executable_name = nil
+              for _, filename in ipairs(vim.fn.readdir(bin_dir)) do
+                local filepath = bin_dir .. filename
+                if vim.fn.isdirectory(filepath) == 0 then
+                  executable_name = filename
+                  break
+                end
+              end
 
-                            for _, filename in ipairs(vim.fn.readdir(bin_dir)) do
-                                local filepath = bin_dir .. filename
-                                if vim.fn.isdirectory(filepath) == 0 then
-                                    executable_name = filename
-                                    break
-                                end
-                            end
+              if not executable_name then
+                vim.notify("Could not find executable in " .. bin_dir, vim.log.levels.ERROR)
+                return nil
+              end
 
-                            if not executable_name then
-                                vim.notify("Could not find executable in " .. bin_dir, vim.log.levels.ERROR)
-                                return nil
-                            end
+              return bin_dir .. executable_name
+            end,
+          },
+        },
+      },
+    }
 
-                            return bin_dir .. executable_name
-                        end,
-                    },
-                },
-            },
-        }
+    require("dap-lldb").setup(lldb_config)
 
-        require("dap-lldb").setup(lldb_config)
+    -- -- language keybindings
+    nmap('<leader>dsl', function()
+      local filetype = vim.api.nvim_get_option_value('filetype', { buf = 0 })
+      if filetype == 'python' then
+        python.debug_selection()
+      end
+    end, { desc = "Debug: selection" }
+    )
 
-        -- -- language keybindings
-        nmap('<leader>dsl', function()
-            local filetype = vim.api.nvim_get_option_value('filetype', { buf = 0 })
-            if filetype == 'python' then
-                python.debug_selection()
-            end
-        end, { desc = "Debug: selection" }
-        )
+    nmap('<leader>dt', function()
+      local filetype = vim.api.nvim_get_option_value('filetype', { buf = 0 })
+      if filetype == 'python' then
+        python.test_method()
+      elseif filetype == 'go' then
+        dap_go.debug_test()
+      end
+    end, { desc = "Debug: function" }
+    )
 
-        nmap('<leader>dt', function()
-            local filetype = vim.api.nvim_get_option_value('filetype', { buf = 0 })
-            if filetype == 'python' then
-                python.test_method()
-            elseif filetype == 'go' then
-                dap_go.debug_test()
-            end
-        end, { desc = "Debug: function" }
-        )
-
-        nmap('<leader>dc', function()
-            local filetype = vim.api.nvim_get_option_value('filetype', { buf = 0 })
-            if filetype == 'python' then
-                python.test_class()
-            end
-        end, { desc = "Debug: class" }
-        )
-    end
+    nmap('<leader>dc', function()
+      local filetype = vim.api.nvim_get_option_value('filetype', { buf = 0 })
+      if filetype == 'python' then
+        python.test_class()
+      end
+    end, { desc = "Debug: class" }
+    )
+  end
 }
