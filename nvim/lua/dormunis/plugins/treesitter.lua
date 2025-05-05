@@ -5,6 +5,7 @@ return {
   dependencies = {
     'nvim-treesitter/nvim-treesitter-context',
     'nvim-treesitter/nvim-treesitter-refactor',
+    'nvim-treesitter/nvim-treesitter-textobjects',
   },
   config = function()
     ---@diagnostic disable-next-line: missing-fields
@@ -14,6 +15,18 @@ return {
           enable = true,
           clear_on_cursor_move = true,
         },
+      },
+      textobjects = {
+        select = {
+          enable = true,
+          lookahead = true,
+          keymaps = {
+            ["af"] = "@function.outer",
+            ["if"] = "@function.inner",
+            ["ac"] = "@class.outer",
+            ["ic"] = "@class.inner",
+          }
+        }
       },
       ensure_installed = {
         "c",
