@@ -67,3 +67,5 @@ if [ -f "${HOME}/Downloads/google-cloud-sdk/completion.zsh.inc" ]; then . "${HOM
 
 desc
 
+
+fpath+=~/.zfunc; autoload -Uz compinit; compinit

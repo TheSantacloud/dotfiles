@@ -5,7 +5,7 @@ font-feature = -liga
 shell-integration = zsh
 initial-command = /bin/zsh -c '[ -n "$(tmux list-sessions 2>/dev/null)" ] && tmux attach || tmux'
 
-background = #19191A
+background = #000000
 window-decoration = false
 window-padding-color = background
 confirm-close-surface = false

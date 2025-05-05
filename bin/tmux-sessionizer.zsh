@@ -23,12 +23,16 @@ session_name="${selected#$DEV_DIR/}"
 
 tmux_running=$(pgrep tmux)
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
-    tmux new-session -s $session_name -c $selected
+       tmux new-session -s "$session_name" -c "$selected" -n nvim "nvim" \; \
+         new-window -n term -c "$selected" \; \
+         select-window -t "$session_name:1"
     exit 0
 fi
 
 if ! tmux has-session -t=$session_name 2> /dev/null; then
-    tmux new-session -ds $session_name -c $selected
+    tmux new-session -ds "$session_name" -c "$selected" -n nvim "nvim"
+    tmux new-window -t "$session_name:" -n term -c "$selected"
+    tmux select-window -t "$session_name:1"
 fi
 
 tmux switch-client -t $session_name
