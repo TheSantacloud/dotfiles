@@ -10,6 +10,7 @@ window-decoration = false
 window-padding-color = background
 confirm-close-surface = false
 window-padding-y = 0
+window-padding-x = 8
 
 # tmux new window
 keybind = super+t=text:\x02c
