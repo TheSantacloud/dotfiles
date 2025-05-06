@@ -1,8 +1,8 @@
 # use this for profiling in case the shell becomes slow
-export PROFILING_MODE=1
+export PROFILING_MODE=0
 if [ $PROFILING_MODE -ne 0 ]; then
     zsh_start_time=$(python3 -c 'import time; print(int(time.time() * 1000))')
-    # zmodload zsh/zprof
+    zmodload zsh/zprof
 fi
 
 # compile zsh file, and source them - first run is slower
@@ -82,7 +82,7 @@ if [ -f "${HOME}/Downloads/google-cloud-sdk/completion.zsh.inc" ]; then . "${HOM
 
 # profiling
 if [ $PROFILING_MODE -ne 0 ]; then
-    # zprof
+    zprof
     zsh_end_time=$(python3 -c 'import time; print(int(time.time() * 1000))')
     echo "Shell init time: $((zsh_end_time - zsh_start_time)) ms"
 fi
