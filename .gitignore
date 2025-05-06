@@ -2,3 +2,4 @@ zsh/.zsh_history
 */**/lazy-lock.json
 dap-virtualenvs
 zsh/.zcompdump
+*.zwc
