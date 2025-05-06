@@ -10,6 +10,3 @@
 [submodule "zsh-completions"]
 	path = zsh/plugins/zsh-completions
     url = git@github.com:zsh-users/zsh-completions.git
-[submodule "dracula"]
-	path = zsh/themes/dracula 
-    url = git@github.com:dracula/zsh.git

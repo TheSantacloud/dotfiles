@@ -1,8 +1,20 @@
 # use this for profiling in case the shell becomes slow
-export PROFILING_MODE=0
+export PROFILING_MODE=1
 if [ $PROFILING_MODE -ne 0 ]; then
-    zmodload zsh/zprof
+    zsh_start_time=$(python3 -c 'import time; print(int(time.time() * 1000))')
+    # zmodload zsh/zprof
 fi
+
+# compile zsh file, and source them - first run is slower
+zsource() {
+  local file=$1
+  local zwc="${file}.zwc"
+  if [[ -f "$file" && (! -f "$zwc" || "$file" -nt "$file") ]]; then
+    zcompile "$file"
+  fi
+  source "$file"
+}
+
 
 # general settings
 export ZSH=$(readlink -f $HOME/.config/zsh)
@@ -12,60 +24,62 @@ export SAVEHIST=10000
 setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_FIND_NO_DUPS
 export PATH="$PATH:$HOME/.local/bin/"
+export KUBE_EDITOR=nvim
 
 # theme
-source $ZSH/themes/dracula/dracula.zsh-theme
+zsource $ZSH/themes/minimal-falcon.zsh-theme
 
 # plugins
-source $ZSH/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
-source $ZSH/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
+zsource $ZSH/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+zsource $ZSH/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
 zstyle ':completion:*:*:git:*' script $ZSH/plugins/git-completions/git-completion.bash
-fpath=($ZSH/plugins/zsh-completions/src $ZSH/plugins/git-completions $fpath)
-autoload -Uz compinit && compinit
-
-# golang
-export PATH=$PATH:$(go env GOPATH)/bin
-
-# python (uv)
-source "$HOME/.local/bin/env"
-
-# platformio
-export PATH=$PATH:${HOME}/.platformio/packages/toolchain-xtensa/bin
-
-# docker
-source <(docker completion zsh)
-
-# pnpm
-export PNPM_HOME="${HOME}/Library/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-
-# tmux
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+fpath=($ZSH/plugins/zsh-completions/src $ZSH/plugins/git-completions $fpath ~/.zfunc)
+autoload -Uz compinit
+ZSH_COMPDUMP="${ZSH}/.zcompdump"
+compinit -C -d "$ZSH_COMPDUMP"
 
 # aliases
-source $ZSH/aliases/customized.plugin.zsh
-source $ZSH/aliases/kubectl.plugin.zsh
-source $ZSH/aliases/git.plugin.zsh
-export KUBE_EDITOR=nvim
-bindkey -s '^f' "tmux-sessionizer\n"
+zsource $ZSH/aliases/customized.plugin.zsh
+zsource $ZSH/aliases/kubectl.plugin.zsh
+zsource $ZSH/aliases/git.plugin.zsh
+
+# git
+if [[ -f "$ZSH/plugins/git-completions/git-completion.zsh" ]]; then
+    source "$ZSH/plugins/git-completions/git-completion.zsh"
+    compdef _git git
+fi
+
+# docker
+if command -v docker &>/dev/null; then
+    source <(docker completion zsh)
+fi
 
 # pyenv
 export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
+pyenv() {
+  unset -f pyenv
+  eval "$(command pyenv init -)"
+  pyenv "$@"
+}
 
-if [ $PROFILING_MODE -ne 0 ]; then
-    zprof
-fi
+
+# golang # NOTE : using ${HOME}/go/bin instead of $(go env GOPATH)/bin for optimization
+export PATH=$PATH:${HOME}/go/bin
+
+# platformio #TODO: lazy load this
+export PATH=$PATH:${HOME}/.platformio/packages/toolchain-xtensa/bin
+
+# tmux
+[ -f ~/.fzf.zsh ] && zsource ~/.fzf.zsh
+bindkey -s '^f' "tmux-sessionizer\n"
 
 # google sdk
 if [ -f "${HOME}/Downloads/google-cloud-sdk/path.zsh.inc" ]; then . "${HOME}/Downloads/google-cloud-sdk/path.zsh.inc"; fi
 if [ -f "${HOME}/Downloads/google-cloud-sdk/completion.zsh.inc" ]; then . "${HOME}/Downloads/google-cloud-sdk/completion.zsh.inc"; fi
 
-desc
-
-
-fpath+=~/.zfunc; autoload -Uz compinit; compinit
+# profiling
+if [ $PROFILING_MODE -ne 0 ]; then
+    # zprof
+    zsh_end_time=$(python3 -c 'import time; print(int(time.time() * 1000))')
+    echo "Shell init time: $((zsh_end_time - zsh_start_time)) ms"
+fi

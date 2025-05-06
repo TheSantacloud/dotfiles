@@ -54,10 +54,17 @@ ln -s "$dotfilesdir/ghostty" ~/.config/alacritty
 ln -s "$dotfilesdir/yabai" ~/.config/yabai
 ln -s "$dotfilesdir/skhd" ~/.config/skhd
 
+# pre-compile zshrc
+zcompile ~/.zshrc
+
 # setup python
 echo "installing python 3.13
 pyenv install 3.13
 pyenv global 3.13
+ln -sf "$PYENV_ROOT/shims/python"     ~/.local/bin/python
+ln -sf "$PYENV_ROOT/shims/python3"    ~/.local/bin/python3
+ln -sf "$PYENV_ROOT/shims/pip"        ~/.local/bin/pip
+ln -sf "$PYENV_ROOT/shims/pip3"       ~/.local/bin/pip3
 mkdir "$dotfilesdir/dap-virtualenvs"
 cd python -m venv debugpy "$dotfilesdir/dap-virtualenvs"
 $dotfilesdir/debugpy/bin/pip install debugpy
