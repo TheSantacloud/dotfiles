@@ -34,6 +34,7 @@ zsource $ZSH/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zs
 zsource $ZSH/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
 zstyle ':completion:*:*:git:*' script $ZSH/plugins/git-completions/git-completion.bash
 fpath=($ZSH/plugins/zsh-completions/src $ZSH/plugins/git-completions $fpath ~/.zfunc)
+
 autoload -Uz compinit
 ZSH_COMPDUMP="${ZSH}/.zcompdump"
 compinit -C -d "$ZSH_COMPDUMP"
@@ -50,9 +51,11 @@ if [[ -f "$ZSH/plugins/git-completions/git-completion.zsh" ]]; then
 fi
 
 # docker
-if command -v docker &>/dev/null; then
-    source <(docker completion zsh)
-fi
+_lazy_docker_completions() {
+  source <(docker completion zsh)
+  unfunction _lazy_docker_completions
+}
+zle -N _lazy_docker_completions
 
 # pyenv
 export PYENV_ROOT="$HOME/.pyenv"
