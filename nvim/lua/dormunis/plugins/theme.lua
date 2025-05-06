@@ -1,15 +1,12 @@
 return {
   {
-    "metalelf0/black-metal-theme-neovim",
-    lazy = false,
-    priority = 1000,
+    "fenetikm/falcon",
     config = function()
-      require("black-metal").setup({
-        theme = "bathory",
-        variant = "dark",
-      })
-      require("black-metal").load()
-    end,
+      vim.g.falcon_background = 0
+      vim.cmd.colorscheme("falcon")
+      vim.api.nvim_set_hl(0, 'CursorLine', { bg = '#232323' })
+      vim.api.nvim_set_hl(0, "DiagnosticVirtualTextError", { fg = "#912222" })
+    end
   },
   {
     'lukas-reineke/indent-blankline.nvim',
