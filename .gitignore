@@ -3,4 +3,3 @@ zsh/.zsh_history
 dap-virtualenvs
 zsh/.zcompdump
 *.zwc
-*/**/*.zwc
