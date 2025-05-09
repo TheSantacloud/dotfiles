@@ -21,6 +21,21 @@ function M.setup()
   vim.keymap.set("n", "X", vim.diagnostic.open_float, { desc = "Line diagnostic" })
   vim.keymap.set("n", "<leader>xx", vim.diagnostic.setloclist, { desc = "Buffer diagnostics" })
   vim.keymap.set("n", "<leader>xw", vim.diagnostic.setqflist, { desc = "Workspace diagnostics" })
+  vim.keymap.set('n', '<C-X>', function()
+    local line = vim.api.nvim_win_get_cursor(0)[1] - 1
+    local diagnostics = vim.diagnostic.get(0, { lnum = line })
+    if #diagnostics == 0 then
+      print("No diagnostics on this line")
+      return
+    end
+    local messages = {}
+    for _, diag in ipairs(diagnostics) do
+      table.insert(messages, diag.message)
+    end
+    local output = table.concat(messages, '\n')
+    vim.fn.setreg('+', output)
+    print("Copied diagnostic message(s) to clipboard")
+  end, { desc = "Copy current line diagnostics to clipboard" })
 end
 
 return M
