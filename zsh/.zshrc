@@ -2,6 +2,7 @@
 export PROFILING_MODE=0
 if [ $PROFILING_MODE -ne 0 ]; then
     zmodload zsh/zprof
+    zsh_start_time=$(python3 -c 'import time; print(int(time.time() * 1000))')
 fi
 
 # compile zsh file, and source them - first run is slower
@@ -22,9 +23,10 @@ export HISTSIZE=10000
 export SAVEHIST=10000
 setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_FIND_NO_DUPS
+export KUBE_EDITOR=nvim
+
 # NOTE : using ${HOME}/go/bin instead of $(go env GOPATH)/bin for optimization
 export PATH="$PATH:$HOME/.local/bin/:${HOME}/go/bin:${HOME}/.platformio/packages/toolchain-xtensa/bin"
-export KUBE_EDITOR=nvim
 
 # theme
 zsource $ZSH/themes/minimal-falcon.zsh-theme
@@ -42,7 +44,6 @@ compinit -C -d "$ZSH_COMPDUMP"
 # aliases
 zsource $ZSH/aliases/customized.plugin.zsh
 zsource $ZSH/aliases/kubectl.plugin.zsh
-zsource $ZSH/aliases/git.plugin.zsh
 
 # git
 if [[ -f "$ZSH/plugins/git-completions/git-completion.zsh" ]]; then
@@ -76,5 +77,7 @@ if [ -f "${HOME}/Downloads/google-cloud-sdk/completion.zsh.inc" ]; then . "${HOM
 
 # profiling
 if [ $PROFILING_MODE -ne 0 ]; then
+    zsh_end_time=$(python3 -c 'import time; print(int(time.time() * 1000))')
     zprof
+    echo "Shell init time: $((zsh_end_time - zsh_start_time - 21)) ms"
 fi
