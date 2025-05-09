@@ -1,7 +1,7 @@
 # use this for profiling in case the shell becomes slow
 export PROFILING_MODE=0
 if [ $PROFILING_MODE -ne 0 ]; then
-    zmodload zsh/zprof
+    # zmodload zsh/zprof
     zsh_start_time=$(python3 -c 'import time; print(int(time.time() * 1000))')
 fi
 
@@ -45,13 +45,6 @@ compinit -C -d "$ZSH_COMPDUMP"
 zsource $ZSH/aliases/customized.plugin.zsh
 zsource $ZSH/aliases/kubectl.plugin.zsh
 
-# docker
-_lazy_docker_completions() {
-  source <(docker completion zsh)
-  unfunction _lazy_docker_completions
-}
-zle -N _lazy_docker_completions
-
 # pyenv
 export PYENV_ROOT="$HOME/.pyenv"
 pyenv() {
@@ -60,7 +53,6 @@ pyenv() {
   pyenv "$@"
 }
 
-
 # utilities
 [ -f ~/.fzf.zsh ] && zsource ~/.fzf.zsh
 bindkey -s '^f' "tmux-sessionizer\n"
@@ -68,6 +60,6 @@ bindkey -s '^f' "tmux-sessionizer\n"
 # profiling
 if [ $PROFILING_MODE -ne 0 ]; then
     zsh_end_time=$(python3 -c 'import time; print(int(time.time() * 1000))')
-    zprof
+    # zprof
     echo "Shell init time: $((zsh_end_time - zsh_start_time - 21)) ms"
 fi
