@@ -4,6 +4,15 @@ return {
     lazy = false,
   },
   {
+    "folke/lazydev.nvim",
+    ft = "lua",
+    opts = {
+      library = {
+        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+      },
+    },
+  },
+  {
     "kylechui/nvim-surround",
     version = "*",
     event = "VeryLazy",
@@ -64,7 +73,14 @@ return {
         nerd_font_variant = 'mono',
       },
       sources = {
-        default = { "buffer", "lsp" },
+        default = { "snippets", "lsp", "lazydev", "path", "buffer" },
+        providers = {
+          lazydev = {
+            name = "lazydev",
+            module = "lazydev.integrations.blink",
+            score_offset = 100,
+          }
+        }
       },
       signature = { enabled = true }
     },
