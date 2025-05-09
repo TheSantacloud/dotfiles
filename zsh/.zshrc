@@ -1,5 +1,5 @@
 # use this for profiling in case the shell becomes slow
-export PROFILING_MODE=1
+export PROFILING_MODE=0
 if [ $PROFILING_MODE -ne 0 ]; then
     zmodload zsh/zprof
     zsh_start_time=$(python3 -c 'import time; print(int(time.time() * 1000))')
@@ -61,13 +61,9 @@ pyenv() {
 }
 
 
-# tmux
+# utilities
 [ -f ~/.fzf.zsh ] && zsource ~/.fzf.zsh
 bindkey -s '^f' "tmux-sessionizer\n"
-
-# google sdk
-if [ -f "${HOME}/Downloads/google-cloud-sdk/path.zsh.inc" ]; then . "${HOME}/Downloads/google-cloud-sdk/path.zsh.inc"; fi
-if [ -f "${HOME}/Downloads/google-cloud-sdk/completion.zsh.inc" ]; then . "${HOME}/Downloads/google-cloud-sdk/completion.zsh.inc"; fi
 
 # profiling
 if [ $PROFILING_MODE -ne 0 ]; then
