@@ -1,5 +1,5 @@
 # use this for profiling in case the shell becomes slow
-export PROFILING_MODE=0
+export PROFILING_MODE=1
 if [ $PROFILING_MODE -ne 0 ]; then
     zmodload zsh/zprof
     zsh_start_time=$(python3 -c 'import time; print(int(time.time() * 1000))')
@@ -44,12 +44,6 @@ compinit -C -d "$ZSH_COMPDUMP"
 # aliases
 zsource $ZSH/aliases/customized.plugin.zsh
 zsource $ZSH/aliases/kubectl.plugin.zsh
-
-# git
-if [[ -f "$ZSH/plugins/git-completions/git-completion.zsh" ]]; then
-    source "$ZSH/plugins/git-completions/git-completion.zsh"
-    compdef _git git
-fi
 
 # docker
 _lazy_docker_completions() {
