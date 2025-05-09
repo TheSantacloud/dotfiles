@@ -1,7 +1,6 @@
 # use this for profiling in case the shell becomes slow
 export PROFILING_MODE=0
 if [ $PROFILING_MODE -ne 0 ]; then
-    zsh_start_time=$(python3 -c 'import time; print(int(time.time() * 1000))')
     zmodload zsh/zprof
 fi
 
@@ -23,7 +22,8 @@ export HISTSIZE=10000
 export SAVEHIST=10000
 setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_FIND_NO_DUPS
-export PATH="$PATH:$HOME/.local/bin/"
+# NOTE : using ${HOME}/go/bin instead of $(go env GOPATH)/bin for optimization
+export PATH="$PATH:$HOME/.local/bin/:${HOME}/go/bin:${HOME}/.platformio/packages/toolchain-xtensa/bin"
 export KUBE_EDITOR=nvim
 
 # theme
@@ -66,12 +66,6 @@ pyenv() {
 }
 
 
-# golang # NOTE : using ${HOME}/go/bin instead of $(go env GOPATH)/bin for optimization
-export PATH=$PATH:${HOME}/go/bin
-
-# platformio #TODO: lazy load this
-export PATH=$PATH:${HOME}/.platformio/packages/toolchain-xtensa/bin
-
 # tmux
 [ -f ~/.fzf.zsh ] && zsource ~/.fzf.zsh
 bindkey -s '^f' "tmux-sessionizer\n"
@@ -83,6 +77,4 @@ if [ -f "${HOME}/Downloads/google-cloud-sdk/completion.zsh.inc" ]; then . "${HOM
 # profiling
 if [ $PROFILING_MODE -ne 0 ]; then
     zprof
-    zsh_end_time=$(python3 -c 'import time; print(int(time.time() * 1000))')
-    echo "Shell init time: $((zsh_end_time - zsh_start_time)) ms"
 fi
