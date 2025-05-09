@@ -55,15 +55,17 @@ vim.opt.splitbelow = true
 -- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
-    callback = function()
-        vim.highlight.on_yank()
-    end,
-    group = highlight_group,
-    pattern = '*',
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+  group = highlight_group,
+  pattern = '*',
 })
 
 -- Remove all trailing whitespace on save
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-    pattern = { "*" },
-    command = [[%s/\s\+$//e]],
+  pattern = { "*" },
+  command = [[%s/\s\+$//e]],
 })
+
+vim.opt.completeopt = { "menu", "menuone", "noselect" }
