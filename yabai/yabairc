@@ -8,11 +8,11 @@ yabai -m config layout                      bsp             \
                 mouse_follows_focus         off             \
                 mouse_drop_action           swap            \
                 insert_feedback_color       0xff9dd274      \
-                top_padding                 10              \
-                bottom_padding              10              \
-                left_padding                10              \
-                right_padding               10              \
-                window_gap                  10
+                top_padding                 4              \
+                bottom_padding              4              \
+                left_padding                4              \
+                right_padding               4              \
+                window_gap                  4
 
 # disable window apps
 yabai -m rule --add app="^Zoom.us$" manage=off
