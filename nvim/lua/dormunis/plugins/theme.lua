@@ -4,16 +4,16 @@ return {
     config = function()
       vim.g.falcon_background = 0
       vim.cmd.colorscheme("falcon")
-      vim.api.nvim_set_hl(0, 'CursorLine', { bg = '#232323' })
+      vim.api.nvim_set_hl(0, "CursorLine", { bg = "#232323" })
       vim.api.nvim_set_hl(0, "DiagnosticVirtualTextError", { fg = "#912222" })
-    end
+    end,
   },
   {
-    'lukas-reineke/indent-blankline.nvim',
+    "lukas-reineke/indent-blankline.nvim",
     main = "ibl",
     opts = {},
     config = function()
-      require("ibl").setup {
+      require("ibl").setup({
         indent = { char = "┊" },
         scope = {
           enabled = true,
@@ -22,13 +22,13 @@ return {
           show_end = false,
           highlight = { "Function", "Label" },
         },
-      }
-    end
+      })
+    end,
   },
   {
-    'norcalli/nvim-colorizer.lua',
+    "norcalli/nvim-colorizer.lua",
     config = function()
       require("colorizer").setup()
-    end
-  }
+    end,
+  },
 }

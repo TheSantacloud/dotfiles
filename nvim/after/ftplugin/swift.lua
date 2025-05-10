@@ -5,9 +5,9 @@ local function exists(path)
 end
 
 local function get_app_name()
-  return vim.fn.system(
-    "swift package describe --type json | jq -r '.targets[] | select(.type == \"executable\") | .name'"):gsub("%s+$",
-    "")
+  return vim.fn
+    .system("swift package describe --type json | jq -r '.targets[] | select(.type == \"executable\") | .name'")
+    :gsub("%s+$", "")
 end
 
 local function get_app_bundle_name(app_name)
