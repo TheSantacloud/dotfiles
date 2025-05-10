@@ -41,7 +41,7 @@ local function parse_platformio_ini(filepath)
   local relevant_keys = {
     upload_speed = true,
     monitor_speed = true,
-    upload_port = true
+    upload_port = true,
   }
 
   for line in file:lines() do
@@ -64,10 +64,10 @@ end
 ---@param config table<string,PlatformIOEnvConfig>|nil
 local upload = function(config)
   --TODO: if multiple envs exists, open a window to pick and choose which env to run for
-  local command = 'pio run --target upload'
+  local command = "pio run --target upload"
   if config ~= nil and config.envs ~= nil then
     for env, _ in pairs(config.envs) do
-      command = command .. ' --environment ' .. env
+      command = command .. " --environment " .. env
       break
     end
   end
@@ -77,10 +77,10 @@ end
 ---@param config PlatformIOConfig|nil
 local compile = function(config)
   --TODO: if multiple envs exists, open a window to pick and choose which env to run for
-  local command = 'pio run'
+  local command = "pio run"
   if config ~= nil and config.envs ~= nil then
     for env, _ in pairs(config.envs) do
-      command = command .. ' --environment ' .. env
+      command = command .. " --environment " .. env
       break
     end
   end
@@ -89,9 +89,15 @@ end
 
 if file_exists(pio_file) then
   local config = parse_platformio_ini(pio_file)
-  vim.keymap.set('n', '<space><space>r', function() upload(config) end)
-  vim.keymap.set('n', '<space><space>c', function() compile(config) end)
-  vim.keymap.set('n', '<space><space>m', function() vim.cmd('VimuxRunCommand "pio device monitor"') end)
+  vim.keymap.set("n", "<space><space>r", function()
+    upload(config)
+  end)
+  vim.keymap.set("n", "<space><space>c", function()
+    compile(config)
+  end)
+  vim.keymap.set("n", "<space><space>m", function()
+    vim.cmd('VimuxRunCommand "pio device monitor"')
+  end)
 
   vim.api.nvim_create_user_command("CompileDB", function()
     vim.cmd("!pio run --target compiledb")

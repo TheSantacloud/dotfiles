@@ -1,9 +1,10 @@
 return {
   "neovim/nvim-lspconfig",
+  event = "VeryLazy",
   dependencies = {
-    { "mason-org/mason.nvim",          config = true },
+    { "mason-org/mason.nvim", config = true },
     { "mason-org/mason-lspconfig.nvim" },
-    { "j-hui/fidget.nvim",             opts = {} },
+    { "j-hui/fidget.nvim", opts = {} },
   },
   config = function()
     local on_attach = function(_, bufnr)
@@ -54,7 +55,9 @@ return {
     local blink_capabilities = require("blink.cmp").get_lsp_capabilities()
     mason_lspconfig.setup({
       automatic_enable = true,
-      ensure_installed = vim.tbl_filter(function(server) return server ~= "sourcekit" end, servers),
+      ensure_installed = vim.tbl_filter(function(server)
+        return server ~= "sourcekit"
+      end, servers),
       automatic_installation = true,
     })
     for _, server_name in ipairs(servers) do
@@ -74,37 +77,6 @@ return {
         if filetype then
           vim.bo.filetype = filetype
         end
-      end,
-    })
-
-    -- autoformatting
-    local format_is_enabled = true
-    vim.api.nvim_create_user_command("ToggleAutoFormat", function()
-      format_is_enabled = not format_is_enabled
-      print("Setting autoformatting to: " .. tostring(format_is_enabled))
-    end, {})
-
-    vim.api.nvim_create_autocmd("LspAttach", {
-      group = vim.api.nvim_create_augroup("lsp-attach-format", { clear = true }),
-      callback = function(args)
-        local client = vim.lsp.get_client_by_id(args.data.client_id)
-        local bufnr = args.buf
-        if not client or not client.server_capabilities.documentFormattingProvider then
-          return
-        end
-        vim.api.nvim_create_autocmd("BufWritePre", {
-          group = vim.api.nvim_create_augroup("lsp-format-" .. client.name, { clear = true }),
-          buffer = bufnr,
-          callback = function()
-            if not format_is_enabled then
-              return
-            end
-            vim.lsp.buf.format({
-              async = false,
-              filter = function(c) return c.id == client.id end,
-            })
-          end,
-        })
       end,
     })
   end,

@@ -7,7 +7,7 @@ return {
         reportMissingTypeStubs = false,
         useLibraryCodeForTypes = true,
         diagnosticMode = "workspace",
-      }
-    }
-  }
+      },
+    },
+  },
 }

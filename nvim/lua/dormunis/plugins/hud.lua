@@ -1,11 +1,11 @@
 return {
   {
-    'echasnovski/mini.nvim',
+    "echasnovski/mini.nvim",
     version = "*",
     config = function()
       local statusline = require("mini.statusline")
       statusline.setup({ use_icons = true })
-    end
+    end,
   },
   {
     "folke/which-key.nvim",

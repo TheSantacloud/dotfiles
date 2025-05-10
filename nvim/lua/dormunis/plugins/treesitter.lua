@@ -1,15 +1,15 @@
 return {
-  'nvim-treesitter/nvim-treesitter',
+  "nvim-treesitter/nvim-treesitter",
   build = ":TSUpdate",
   event = { "BufRead", "BufNewFile" },
   dependencies = {
-    'nvim-treesitter/nvim-treesitter-context',
-    'nvim-treesitter/nvim-treesitter-refactor',
-    'nvim-treesitter/nvim-treesitter-textobjects',
+    "nvim-treesitter/nvim-treesitter-context",
+    "nvim-treesitter/nvim-treesitter-refactor",
+    "nvim-treesitter/nvim-treesitter-textobjects",
   },
   config = function()
     ---@diagnostic disable-next-line: missing-fields
-    require('nvim-treesitter.configs').setup {
+    require("nvim-treesitter.configs").setup({
       refactor = {
         highlight_definitions = {
           enable = true,
@@ -25,8 +25,8 @@ return {
             ["if"] = "@function.inner",
             ["ac"] = "@class.outer",
             ["ic"] = "@class.inner",
-          }
-        }
+          },
+        },
       },
       ensure_installed = {
         "c",
@@ -70,6 +70,6 @@ return {
       highlight = {
         enable = true,
       },
-    }
-  end
+    })
+  end,
 }

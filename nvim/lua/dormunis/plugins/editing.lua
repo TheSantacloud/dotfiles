@@ -5,6 +5,7 @@ return {
   },
   {
     "folke/lazydev.nvim",
+    event = "VeryLazy",
     ft = "lua",
     opts = {
       library = {
@@ -18,21 +19,22 @@ return {
     event = "VeryLazy",
     config = function()
       require("nvim-surround").setup()
-    end
+    end,
   },
   {
-    'mbbill/undotree',
+    "mbbill/undotree",
     config = function()
-      vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle, { desc = 'Undo Tree' })
-    end
+      vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle, { desc = "Undo Tree" })
+    end,
   },
   {
-    'saghen/blink.cmp',
+    "saghen/blink.cmp",
+    event = "VeryLazy",
     dependencies = {
-      'rafamadriz/friendly-snippets',
-      'echasnovski/mini.icons',
+      "rafamadriz/friendly-snippets",
+      "echasnovski/mini.icons",
     },
-    version = '*',
+    version = "*",
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
     opts = {
@@ -53,24 +55,24 @@ return {
               kind_icon = {
                 ellipsis = false,
                 text = function(ctx)
-                  local kind_icon, _, _ = require('mini.icons').get('lsp', ctx.kind)
+                  local kind_icon, _, _ = require("mini.icons").get("lsp", ctx.kind)
                   return kind_icon
                 end,
                 highlight = function(ctx)
-                  local _, hl, _ = require('mini.icons').get('lsp', ctx.kind)
+                  local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
                   return hl
                 end,
-              }
-            }
-          }
-        }
+              },
+            },
+          },
+        },
       },
       keymap = {
-        preset = 'default',
-        ['<C-space>'] = {},
+        preset = "default",
+        ["<C-space>"] = {},
       },
       appearance = {
-        nerd_font_variant = 'mono',
+        nerd_font_variant = "mono",
       },
       sources = {
         default = { "snippets", "lsp", "lazydev", "path", "buffer" },
@@ -79,12 +81,29 @@ return {
             name = "lazydev",
             module = "lazydev.integrations.blink",
             score_offset = 100,
-          }
-        }
+          },
+        },
       },
-      signature = { enabled = true }
+      signature = { enabled = true },
     },
-    opts_extend = { "sources.default" }
+    opts_extend = { "sources.default" },
+  },
+  {
+    "stevearc/conform.nvim",
+    event = { "BufWritePre" },
+    cmd = { "ConformInfo" },
+    opts = {
+      formatters_by_ft = {
+        lua = { "stylua" },
+        python = { "ruff_format" },
+        javascript = { "prettierd" },
+        typescript = { "prettierd" },
+      },
+      format_on_save = {
+        timeout_ms = 500,
+        lsp_fallback = true,
+      },
+    },
   },
   {
 
@@ -95,8 +114,8 @@ return {
           accept_suggestion = "<C-space>",
           clear_suggestion = "Esc",
           accept_word = "<C-shift-space>",
-        }
+        },
       })
     end,
-  }
+  },
 }
