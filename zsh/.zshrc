@@ -1,7 +1,7 @@
 # use this for profiling in case the shell becomes slow
 export PROFILING_MODE=0
 if [ $PROFILING_MODE -ne 0 ]; then
-    # zmodload zsh/zprof
+    zmodload zsh/zprof
     zsh_start_time=$(python3 -c 'import time; print(int(time.time() * 1000))')
 fi
 
@@ -60,6 +60,6 @@ bindkey -s '^f' "tmux-sessionizer\n"
 # profiling
 if [ $PROFILING_MODE -ne 0 ]; then
     zsh_end_time=$(python3 -c 'import time; print(int(time.time() * 1000))')
-    # zprof
-    echo "Shell init time: $((zsh_end_time - zsh_start_time - 21)) ms"
+    zprof
+    echo "Shell init time: $((zsh_end_time - zsh_start_time - 21)) msasdasd"
 fi
