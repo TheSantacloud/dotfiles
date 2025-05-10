@@ -2,13 +2,11 @@
 
 This is a dotfiles repository, built to bootstrap any Mac workstation to fit my configurations
 
+DO NOT USE THIS, this probably won't work for you. But by all means, feel free to use it as a reference.
+
 ## Installation
 
 ```
 curl -L https://raw.githubusercontent.com/dormunis/dotfiles/main/bootstrap.zsh | sh
 ```
 
-## TODO
-- [ ] find a way to securly get my ssh key in order to clone stuff from GitHub
-- [ ] login to the browser as my user automatically
-- [ ] fugitive - bind <leader>< and <leader>> to accept left or right
