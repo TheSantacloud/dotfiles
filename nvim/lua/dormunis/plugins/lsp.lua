@@ -13,6 +13,11 @@ return {
       end
 
       nmap("<leader>r", vim.lsp.buf.rename, "Rename")
+      nmap("gD", vim.lsp.buf.declaration, "Go to declaration")
+      nmap("gd", vim.lsp.buf.definition, "Go to definition")
+      nmap("gR", require("telescope.builtin").lsp_references, "Get references in a telescope list")
+      nmap("gI", vim.lsp.buf.implementation, "Go to implementation")
+      nmap("gt", vim.lsp.buf.type_definition, "Go to type definition")
       nmap("gr", function()
         vim.lsp.buf.references(nil, {
           on_list = function(options)
@@ -28,7 +33,6 @@ return {
           end,
         })
       end, "Get references in a quickfix list")
-      nmap("gD", vim.lsp.buf.declaration, "Go to declaration")
       nmap("H", vim.lsp.buf.signature_help, "Signature Help")
       nmap("<leader>cf", vim.lsp.buf.format, "Format file")
       nmap("<leader>ca", vim.lsp.buf.code_action, "Code action")
