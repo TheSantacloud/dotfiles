@@ -1,6 +1,5 @@
 return {
   "neovim/nvim-lspconfig",
-  event = "VeryLazy",
   dependencies = {
     { "mason-org/mason.nvim", config = true },
     { "mason-org/mason-lspconfig.nvim" },
@@ -12,12 +11,11 @@ return {
         vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
       end
 
-      nmap("<leader>r", vim.lsp.buf.rename, "Rename")
       nmap("gD", vim.lsp.buf.declaration, "Go to declaration")
       nmap("gd", vim.lsp.buf.definition, "Go to definition")
       nmap("gI", vim.lsp.buf.implementation, "Go to implementation")
       nmap("gt", vim.lsp.buf.type_definition, "Go to type definition")
-      nmap("gr", function()
+      nmap("grr", function()
         vim.lsp.buf.references(nil, {
           on_list = function(options)
             vim.fn.setqflist({}, " ", {
@@ -47,7 +45,6 @@ return {
       "zls",
       "clangd",
       "terraformls",
-      "ruff",
       "pyright",
       "lua_ls",
       "sourcekit",
@@ -63,12 +60,10 @@ return {
       end, servers),
       automatic_installation = true,
     })
-    for _, server_name in ipairs(servers) do
-      vim.lsp.config(server_name, {
-        capabilities = vim.tbl_deep_extend("force", blink_capabilities, {}),
-        on_attach = on_attach,
-      })
-    end
+    vim.lsp.config("*", {
+      capabilities = blink_capabilities,
+      on_attach = on_attach,
+    })
     vim.lsp.enable(servers)
 
     -- .tmp files
