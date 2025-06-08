@@ -29,4 +29,5 @@ alt + ctrl + cmd - u : open -a "Zen Browser"
 alt + ctrl + cmd - i : open -a "Ghostty"
 alt + ctrl + cmd - o : open -a "Obsidian"
 alt + ctrl + cmd - t : open -a "Todoist"
+alt + ctrl + cmd - m : open -a "Spotify"
 
