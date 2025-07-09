@@ -44,7 +44,7 @@ return {
         end
       end, { desc = "Git status" })
 
-      vim.keymap.set("n", "<leader>gpl", function()
+      vim.keymap.set("n", "<leader>gP", function()
         vim.cmd.Git({ "pull" })
       end, { desc = "Git pull" })
       vim.keymap.set("n", "<leader>gb", function()
