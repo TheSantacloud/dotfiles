@@ -18,6 +18,7 @@ vim.opt.shiftround = true
 vim.opt.expandtab = true
 
 vim.opt.smartindent = true
+vim.opt.backspace = "indent,eol,start"
 
 vim.opt.wrap = false
 
@@ -33,8 +34,10 @@ vim.opt.undofile = true
 vim.opt.hlsearch = true
 vim.opt.incsearch = true
 vim.opt.ignorecase = true
+vim.opt.smartcase = true
 
 vim.opt.termguicolors = true
+vim.opt.showmode = false
 
 vim.opt.scrolloff = 8
 vim.opt.signcolumn = "yes"

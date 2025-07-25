@@ -14,49 +14,54 @@ return {
   },
   config = function()
     local dap = require("dap")
-    -- keybindings
-    nmap("<leader>dr", function()
-      dap.continue()
-    end, { desc = "Debug: continue" })
-    nmap("<leader>dso", function()
-      dap.step_over()
-    end, { desc = "Debug: step over" })
-    nmap("<leader>dsi", function()
-      dap.step_into()
-    end, { desc = "Debug: step into" })
-    nmap("<leader>dsb", function()
-      dap.step_out()
-    end, { desc = "Debug: step out/back" })
     nmap("<leader>db", function()
       dap.toggle_breakpoint()
     end, { desc = "Debug: toggle breakpoint" })
-    nmap("<leader>dc", function()
+
+    nmap("<leader>dB", function()
       dap.set_breakpoint(vim.fn.input("Breakpoint point message: "))
     end, { desc = "Debug: conditional breakpoint" })
+
     nmap("<leader>dl", function()
       dap.set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
     end, { desc = "Debug: log point" })
 
+    nmap("<leader>dc", function()
+      dap.continue()
+    end, { desc = "Debug: continue" })
+
+    nmap("<leader>do", function()
+      dap.step_over()
+    end, { desc = "Debug: step over" })
+
+    nmap("<leader>di", function()
+      dap.step_into()
+    end, { desc = "Debug: step into" })
+
+    nmap("<leader>dO", function()
+      dap.step_out()
+    end, { desc = "Debug: step out/back" })
+
     local dapui = require("dapui")
     dapui.setup()
-    -- ui auto-hook
+
     dap.listeners.after.event_initialized["dapui_config"] = function()
       dapui.open()
     end
-    dap.listeners.before.event_terminated["dapui_config"] = function()
-      dapui.close()
-    end
-    dap.listeners.before.event_exited["dapui_config"] = function()
-      dapui.close()
-    end
 
-    -- extensions
-    ---@diagnostic disable-next-line: missing-fields
-    require("nvim-dap-virtual-text").setup({})
+    nmap("<leader><leader>d", function()
+      dapui.toggle()
+    end, { desc = "Debug: UI open" })
+
+    require("nvim-dap-virtual-text").setup({
+      commented = true,
+    })
 
     -- language plugins
     local python = require("dap-python")
+    -- TODO: move to uv?
     python.setup("~/.config/dap-virtualenvs/debugpy/bin/python")
+    python.test_runner = "pytest"
 
     local dap_go = require("dap-go")
     dap_go.setup()
@@ -109,16 +114,17 @@ return {
       end
     end, { desc = "Debug: selection" })
 
-    nmap("<leader>dt", function()
+    nmap("<leader>td", function()
       local filetype = vim.api.nvim_get_option_value("filetype", { buf = 0 })
       if filetype == "python" then
+        -- determine if class or method (maybe using treesitter). remove <leader>tc afterwards
         python.test_method()
       elseif filetype == "go" then
         dap_go.debug_test()
       end
     end, { desc = "Debug: function" })
 
-    nmap("<leader>dc", function()
+    nmap("<leader>tc", function()
       local filetype = vim.api.nvim_get_option_value("filetype", { buf = 0 })
       if filetype == "python" then
         python.test_class()

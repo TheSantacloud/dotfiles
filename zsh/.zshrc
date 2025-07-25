@@ -63,3 +63,5 @@ if [ $PROFILING_MODE -ne 0 ]; then
     zprof
     echo "Shell init time: $((zsh_end_time - zsh_start_time - 21)) msasdasd"
 fi
+
+. "$HOME/.local/bin/env"
