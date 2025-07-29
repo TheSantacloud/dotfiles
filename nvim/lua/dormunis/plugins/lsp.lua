@@ -49,6 +49,7 @@ return {
       "pyright",
       "lua_ls",
       "sourcekit",
+      "vtsls",
     }
 
     require("mason").setup()
