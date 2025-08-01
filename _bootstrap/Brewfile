@@ -30,6 +30,7 @@ brew "pre-commit"
 brew "gh"
 brew "zig"
 brew "arduino-cli"
+brew "pipx"
 cask "docker"
 cask "font-hack-nerd-font"
 

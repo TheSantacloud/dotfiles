@@ -59,8 +59,7 @@ return {
 
     -- language plugins
     local python = require("dap-python")
-    -- TODO: move to uv?
-    python.setup("~/.config/dap-virtualenvs/debugpy/bin/python")
+    python.setup("~/.local/pipx/venvs/debugpy/bin/python")
     python.test_runner = "pytest"
 
     local dap_go = require("dap-go")

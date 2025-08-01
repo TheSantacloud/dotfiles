@@ -65,18 +65,7 @@ ln -sf "$PYENV_ROOT/shims/python"     ~/.local/bin/python
 ln -sf "$PYENV_ROOT/shims/python3"    ~/.local/bin/python3
 ln -sf "$PYENV_ROOT/shims/pip"        ~/.local/bin/pip
 ln -sf "$PYENV_ROOT/shims/pip3"       ~/.local/bin/pip3
-mkdir "$dotfilesdir/dap-virtualenvs"
-previous_dir=$(pwd)
-cd "$dotfilesdir/dap-virtualenvs"
-python -m venv debugpy
-$dotfilesdir/debugpy/bin/pip install debugpy
-ln -s "$dotfilesdir/dap-virtualenvs" ~/.config/dap-virtualenvs
-cd $previous_dir
-
-# setup jupyter notebook
-mkdir ~/dev/jupyter-notebooks
-python -m venv ~/Library/Caches/pypoetry/virtualenvs/jupyter
-source ~/Library/Caches/pypoetry/virtualenvs/jupyter/bin/pip3 install jupyterlab jupyterthemes jupyterlab-vim
+pipx install debugpy
 
 # install rust
 echo "installing rust latest version"
