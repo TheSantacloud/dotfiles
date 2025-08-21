@@ -15,8 +15,11 @@ else \
 fi'
 
 s() {
-  if [ -f "pyproject.toml" ]; then
+  if [ -f ".venv/bin/activate" ]; then
+    source .venv/bin/activate
+  elif [ -f "pyproject.toml" ]; then
     $(poetry env activate)
+  else
+    echo "No virtual environment found"
   fi
 }
-

@@ -1,58 +1,58 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
-vim.opt.guicursor = ""
-vim.opt.cursorline = true
-vim.opt.showcmd = true
-vim.opt.laststatus = 2
-vim.opt.autowrite = true
-vim.opt.autoread = true
+vim.o.guicursor = ""
+vim.o.cursorline = true
+vim.o.showcmd = true
+vim.o.laststatus = 2
+vim.o.autowrite = true
+vim.o.autoread = true
 
-vim.opt.nu = true
-vim.opt.relativenumber = true
+vim.o.nu = true
+vim.o.relativenumber = true
 
-vim.opt.tabstop = 4
-vim.opt.softtabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.shiftround = true
-vim.opt.expandtab = true
+vim.o.tabstop = 4
+vim.o.softtabstop = 4
+vim.o.shiftwidth = 4
+vim.o.shiftround = true
+vim.o.expandtab = true
 
-vim.opt.smartindent = true
-vim.opt.backspace = "indent,eol,start"
+vim.o.smartindent = true
+vim.o.backspace = "indent,eol,start"
 
-vim.opt.wrap = false
+vim.o.wrap = false
 
-vim.opt.swapfile = false
-vim.opt.backup = false
-vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
-vim.opt.undofile = true
+vim.o.swapfile = false
+vim.o.backup = false
+vim.o.undodir = os.getenv("HOME") .. "/.vim/undodir"
+vim.o.undofile = true
 
 -- :e to create a file in the current directory
 -- TODO: make this work for only :e
--- vim.opt.autochdir = true
+-- vim.o.autochdir = true
 
-vim.opt.hlsearch = true
-vim.opt.incsearch = true
-vim.opt.ignorecase = true
-vim.opt.smartcase = true
+vim.o.hlsearch = true
+vim.o.incsearch = true
+vim.o.ignorecase = true
+vim.o.smartcase = true
 
-vim.opt.termguicolors = true
-vim.opt.showmode = false
+vim.o.termguicolors = true
+vim.o.showmode = false
 
-vim.opt.scrolloff = 8
-vim.opt.signcolumn = "yes"
+vim.o.scrolloff = 8
+vim.o.signcolumn = "yes"
 vim.opt.isfname:append("@-@")
 
-vim.opt.updatetime = 50
+vim.o.updatetime = 50
 
-vim.opt.colorcolumn = "100"
+vim.o.colorcolumn = "100"
 
 -- disable startup screen
 vim.opt.shortmess:append({ I = true })
 
 -- split behavior
-vim.opt.splitright = true
-vim.opt.splitbelow = true
+vim.o.splitright = true
+vim.o.splitbelow = true
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`

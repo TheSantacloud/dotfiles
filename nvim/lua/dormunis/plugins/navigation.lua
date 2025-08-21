@@ -55,7 +55,7 @@ return {
       map("n", "<leader>fw", fzf.grep_cword, { desc = "Grep word under cursor" })
       map("n", "<leader>gl", fzf.git_commits, { desc = "Git commits" })
       map("n", "<leader>gL", fzf.git_bcommits, { desc = "Git commits (current buffer)" })
-      map("n", "<leader>gC", fzf.git_branches, { desc = "Git branches" })
+      map("n", "<leader><leader>g", fzf.git_branches, { desc = "Git branches" })
       map("n", "<leader>fD", fzf.lsp_workspace_symbols, { desc = "LSP workspace symbols" })
       map("n", "<leader>fd", fzf.lsp_document_symbols, { desc = "LSP document symbols" })
       map("n", "<leader>fc", fzf.blines, { desc = "Search in current buffer" })
