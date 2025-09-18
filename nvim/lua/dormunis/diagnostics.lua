@@ -11,12 +11,20 @@ function M.setup()
   })
 
   vim.keymap.set("n", "]x", function()
-    vim.diagnostic.jump({ count = 1, float = true })
+    vim.diagnostic.jump({ count = 1, float = true, severity = { min = vim.diagnostic.severity.ERROR } })
   end, { desc = "Next diagnostic" })
 
   vim.keymap.set("n", "[x", function()
-    vim.diagnostic.jump({ count = -1, float = true })
+    vim.diagnostic.jump({ count = -1, float = true, severity = { min = vim.diagnostic.severity.ERROR } })
   end, { desc = "Previous diagnostic" })
+
+  vim.keymap.set("n", "]w", function()
+    vim.diagnostic.jump({ count = 1, float = true, severity = vim.diagnostic.severity.WARN })
+  end, { desc = "Next warning diagnostic" })
+
+  vim.keymap.set("n", "[w", function()
+    vim.diagnostic.jump({ count = -1, float = true, severity = vim.diagnostic.severity.WARN })
+  end, { desc = "Previous warning diagnostic" })
 
   vim.keymap.set("n", "X", vim.diagnostic.open_float, { desc = "Line diagnostic" })
   vim.keymap.set("n", "<leader>xx", vim.diagnostic.setloclist, { desc = "Buffer diagnostics" })

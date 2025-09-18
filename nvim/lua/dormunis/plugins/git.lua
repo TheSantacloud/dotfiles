@@ -43,6 +43,12 @@ return {
           vim.api.nvim_buf_delete(vim.api.nvim_get_current_buf(), { force = true })
         end
       end, { desc = "Git status" })
+      vim.keymap.set("n", "<leader>gS", function()
+        vim.cmd.Git({ "stash" })
+      end, { desc = "Git stash" })
+      vim.keymap.set("n", "<leader>gSa", function()
+        vim.cmd.Git({ "pull" })
+      end, { desc = "Git stash apply" })
 
       vim.keymap.set("n", "<leader>gP", function()
         vim.cmd.Git({ "pull" })

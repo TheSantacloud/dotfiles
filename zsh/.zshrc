@@ -57,6 +57,9 @@ pyenv() {
 [ -f ~/.fzf.zsh ] && zsource ~/.fzf.zsh
 bindkey -s '^f' "tmux-sessionizer\n"
 
+# postgres
+export PATH="$PATH:/opt/homebrew/opt/postgresql@17/bin"
+
 # profiling
 if [ $PROFILING_MODE -ne 0 ]; then
     zsh_end_time=$(python3 -c 'import time; print(int(time.time() * 1000))')

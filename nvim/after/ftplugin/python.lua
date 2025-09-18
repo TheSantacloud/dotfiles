@@ -1,24 +1,49 @@
+--- Find project root by looking for common project markers
+--- @return string "Project root path"
+local function find_project_root()
+  local markers = { "pyproject.toml", "poetry.lock", ".git", "requirements.txt", ".venv" }
+  local path = vim.fn.expand("%:p:h")
+
+  while path ~= "/" do
+    for _, marker in ipairs(markers) do
+      if vim.loop.fs_stat(path .. "/" .. marker) then
+        return path
+      end
+    end
+    path = vim.fn.fnamemodify(path, ":h")
+  end
+
+  return vim.loop.cwd()
+end
+
 --- Gets the selected code
 --- @return string "Code Snippet"
 local function get_selected_code()
   local start_line = vim.fn.line("'<")
   local end_line = vim.fn.line("'>")
   local lines = vim.fn.getline(start_line, end_line)
-  if type(selected_lines) == "string" then
-    selected_lines = { selected_lines }
+  if type(lines) == "string" then
+    lines = { lines }
   end
   return table.concat(lines, "\n")
 end
 
---- Gets the relevant python binary path (also considering virtual environments)
+--- Gets the relevant python binary path (checking .venv first, then poetry)
 --- @return string "Python binary path"
 local function get_python_bin()
-  local virtual_env = os.getenv("VIRTUAL_ENV")
-  local python_bin = "python"
-  if virtual_env ~= nil and string.find(virtual_env, "poetry") then
-    python_bin = virtual_env .. "/bin/python"
+  local project_root = find_project_root()
+
+  -- First check for local .venv
+  if vim.loop.fs_stat(project_root .. "/.venv/bin/python") then
+    return project_root .. "/.venv/bin/python"
   end
-  return python_bin
+
+  -- Fall back to poetry if available
+  if vim.fn.executable("poetry") == 1 and vim.loop.fs_stat(project_root .. "/poetry.lock") then
+    return "poetry run python"
+  end
+
+  return "python"
 end
 
 --- Executes a python snippet to messages within a specified binary
@@ -38,18 +63,26 @@ local function execute_python_snippet(code, opts)
 end
 
 local function run_python_file(path)
-  local cmd = 'VimuxRunCommand "poetry run python ' .. path .. '"'
-  if vim.fn.executable("poetry") ~= 1 or vim.loop.fs_stat(vim.loop.cwd() .. "/" .. "poetry.lock") == nil then
-    cmd = 'VimuxRunCommand "python ' .. path .. '"'
-  end
-  vim.cmd('VimuxRunCommand "poetry run python ' .. path .. '"')
+  local python_bin = get_python_bin()
+  vim.cmd('VimuxRunCommand "' .. python_bin .. " " .. path .. '"')
 end
 
-local function activate_poetry_shell(path)
-  if vim.fn.executable("poetry") ~= 1 or vim.loop.fs_stat(vim.loop.cwd() .. "/" .. "poetry.lock") == nil then
+local function activate_virtual_env()
+  local project_root = find_project_root()
+
+  -- First try local .venv
+  if vim.loop.fs_stat(project_root .. "/.venv/bin/activate") then
+    vim.cmd('VimuxRunCommand "source ' .. project_root .. '/.venv/bin/activate"')
     return
   end
-  vim.cmd('VimuxRunCommand "$(poetry env activate)"')
+
+  -- Fall back to poetry
+  if vim.fn.executable("poetry") == 1 and vim.loop.fs_stat(project_root .. "/poetry.lock") then
+    vim.cmd('VimuxRunCommand "$(poetry env activate)"')
+    return
+  end
+
+  vim.api.nvim_echo({ { "No virtual environment found", "WarningMsg" } }, false, {})
 end
 
 vim.keymap.set("n", "<space><space>r", function()
@@ -64,6 +97,5 @@ vim.keymap.set("v", "<space><space>r", function()
 end)
 
 vim.keymap.set("n", "<space><space>s", function()
-  local filepath = vim.fn.expand("%:p")
-  activate_poetry_shell(filepath)
+  activate_virtual_env()
 end)
