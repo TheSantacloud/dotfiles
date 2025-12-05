@@ -45,20 +45,16 @@ compinit -C -d "$ZSH_COMPDUMP"
 zsource $ZSH/aliases/customized.plugin.zsh
 zsource $ZSH/aliases/kubectl.plugin.zsh
 
-# pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-pyenv() {
-  unset -f pyenv
-  eval "$(command pyenv init -)"
-  pyenv "$@"
-}
-
 # utilities
 [ -f ~/.fzf.zsh ] && zsource ~/.fzf.zsh
 bindkey -s '^f' "tmux-sessionizer\n"
 
 # postgres
 export PATH="$PATH:/opt/homebrew/opt/postgresql@17/bin"
+#
+# volta
+export PATH="$HOME/.volta/bin:$PATH"
+
 
 # profiling
 if [ $PROFILING_MODE -ne 0 ]; then

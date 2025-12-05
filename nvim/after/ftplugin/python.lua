@@ -28,17 +28,16 @@ local function get_selected_code()
   return table.concat(lines, "\n")
 end
 
---- Gets the relevant python binary path (checking .venv first, then poetry)
---- @return string "Python binary path"
 local function get_python_bin()
   local project_root = find_project_root()
 
-  -- First check for local .venv
-  if vim.loop.fs_stat(project_root .. "/.venv/bin/python") then
-    return project_root .. "/.venv/bin/python"
+  for _, python_name in ipairs({ "python3", "python" }) do
+    local venv_python = project_root .. "/.venv/bin/" .. python_name
+    if vim.loop.fs_stat(venv_python) then
+      return venv_python
+    end
   end
 
-  -- Fall back to poetry if available
   if vim.fn.executable("poetry") == 1 and vim.loop.fs_stat(project_root .. "/poetry.lock") then
     return "poetry run python"
   end

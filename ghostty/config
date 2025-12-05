@@ -3,7 +3,7 @@ font-size = 18
 font-feature = -liga
 
 shell-integration = zsh
-initial-command = /bin/zsh -c '[ -n "$(tmux list-sessions 2>/dev/null)" ] && tmux attach || tmux'
+initial-command = /bin/zsh -c '[ -n "$(tmux list-sessions 2>/dev/null)" ] && tmux attach || tmux new-session -s notes -c ~/Documents/obsidian-vault/notes nvim'
 
 background = #000000
 window-decoration = false

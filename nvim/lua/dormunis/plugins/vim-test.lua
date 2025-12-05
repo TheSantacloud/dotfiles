@@ -8,9 +8,12 @@ return {
   config = function()
     local g = vim.g
     g["test#strategy"] = "vimux"
+    g["test#python#pytest#executable"] = "uv run pytest"
     g["test#python#pytest#options"] = "-s --disable-warnings"
     g["test#javascript#jest#executable"] = "npm test"
     g["test#javascript#jest#file_pattern"] = "*.test.(js|jsx|ts|tsx)"
+    g["test#go#runner"] = "gotest"
+    g["test#go#gotest#options"] = "-v"
     g["test#swift#runner"] = "swiftpm"
     g["test#swift#swiftpm#executable"] = "swift test"
     g["test#swift#swiftpm#options"] = "--parallel"

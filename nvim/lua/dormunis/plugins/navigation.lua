@@ -50,7 +50,7 @@ return {
       map("n", "<leader>fb", fzf.buffers, { desc = "Open buffers" })
       map("n", "<leader>fr", fzf.oldfiles, { desc = "Recently opened files" })
       map("n", "<leader>fg", function()
-        fzf.live_grep({ resume = true })
+        fzf.live_grep({ resume = true, rg_glob = true })
       end, { desc = "Live grep project" })
       map("n", "<leader>fw", fzf.grep_cword, { desc = "Grep word under cursor" })
       map("n", "<leader>gl", fzf.git_commits, { desc = "Git commits" })

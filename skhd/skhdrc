@@ -21,13 +21,12 @@ alt + ctrl + cmd - l        : yabai -m window --focus east || yabai -m window --
 alt + ctrl + cmd - h        : yabai -m window --focus west
 alt + ctrl + cmd - k        : yabai -m window --focus north
 alt + ctrl + cmd - j        : yabai -m window --focus south
-alt + ctrl + cmd - n        : yabai -m window --focus stack.next || yabai -m window --focus next || yabai -m window --focus stack.first || yabai -m window --focus first
-alt + ctrl + cmd - p        : yabai -m window --focus stack.prev || yabai -m window --focus prev || yabai -m window --focus stack.last || yabai -m window --focus last
 
 # app shortcuts
-alt + ctrl + cmd - u : open -a "Zen Browser"
-alt + ctrl + cmd - i : open -a "Ghostty"
-alt + ctrl + cmd - o : open -a "Obsidian"
+alt + ctrl + cmd - u : open -a "Google Chrome"
+alt + ctrl + cmd - i : zsh ~/.config/skhd/ghostty.zsh
+alt + ctrl + cmd - o : notes
 alt + ctrl + cmd - t : open -a "Todoist"
 alt + ctrl + cmd - m : open -a "Spotify"
+alt + ctrl + cmd - p : open -a "Postico 2"
 
