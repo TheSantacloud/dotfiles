@@ -52,3 +52,7 @@ keymap("v", "<leader>y", [["+y]], opts)
 
 -- copy entire file to clipboard
 keymap("n", "<leader>y", ":%y+<CR>", opts)
+
+-- insert timestamp (insert mode)
+keymap("i", "<C-t>", os.date("%Y%m%d%H%M%S"), opts)
+keymap("i", "<C-d>", os.date("%Y%m%d"), opts)
