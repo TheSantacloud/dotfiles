@@ -9,7 +9,7 @@ return {
         if vim.fn.getqflist({ winid = 0 }).winid ~= 0 then
           vim.cmd("cclose")
         else
-          vim.cmd("TodoQuickFix")
+          vim.cmd("TodoQuickFix keywords=TODO,BUG,FIX,FIXME")
         end
       end, { desc = "TODO quickfix" }),
       vim.keymap.set("n", "]t", function()
