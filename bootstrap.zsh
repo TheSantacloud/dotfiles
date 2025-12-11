@@ -54,6 +54,7 @@ ln -s "$dotfilesdir/ghostty" ~/.config/alacritty
 ln -s "$dotfilesdir/yabai" ~/.config/yabai
 ln -s "$dotfilesdir/skhd" ~/.config/skhd
 ln -s "$dotfilesdir/aerospace " ~/.config/aerospace
+ln -s "$dotfilesdir/globalgitignore" ~/.gitignore_global
 
 # pre-compile zshrc
 zcompile ~/.zshrc
