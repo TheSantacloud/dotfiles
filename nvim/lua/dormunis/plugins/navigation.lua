@@ -121,20 +121,43 @@ return {
     end,
   },
   {
-    "christoomey/vim-tmux-navigator",
-    cmd = {
-      "TmuxNavigateLeft",
-      "TmuxNavigateDown",
-      "TmuxNavigateUp",
-      "TmuxNavigateRight",
-      "TmuxNavigatePrevious",
-    },
-    keys = {
-      { "<c-h>", "<cmd><C-U>TmuxNavigateLeft<cr>" },
-      { "<c-j>", "<cmd><C-U>TmuxNavigateDown<cr>" },
-      { "<c-k>", "<cmd><C-U>TmuxNavigateUp<cr>" },
-      { "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
-      { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
-    },
+    "vim-tmux-yabai-navigator",
+    virtual = true,
+    config = function()
+      local directions = {
+        h = { wincmd = "h", tmux = "-L", yabai = "west", at_edge = "#{pane_at_left}" },
+        j = { wincmd = "j", tmux = "-D", yabai = "south", at_edge = "#{pane_at_bottom}" },
+        k = { wincmd = "k", tmux = "-U", yabai = "north", at_edge = "#{pane_at_top}" },
+        l = { wincmd = "l", tmux = "-R", yabai = "east", at_edge = "#{pane_at_right}" },
+      }
+
+      local function yabai_focus(dir)
+        vim.fn.system("~/.config/skhd/yabai_focus.sh " .. dir)
+      end
+
+      local function navigate(dir)
+        local d = directions[dir]
+        local win_before = vim.fn.winnr()
+        vim.cmd("wincmd " .. d.wincmd)
+        if vim.fn.winnr() ~= win_before then
+          return
+        end
+        if not vim.env.TMUX then
+          yabai_focus(d.yabai)
+          return
+        end
+        local at_edge = vim.fn.system("tmux display-message -p '" .. d.at_edge .. "'"):gsub("%s+", "")
+        if at_edge == "1" then
+          yabai_focus(d.yabai)
+        else
+          vim.fn.system("tmux select-pane " .. d.tmux)
+        end
+      end
+
+      vim.keymap.set("n", "<C-h>", function() navigate("h") end)
+      vim.keymap.set("n", "<C-j>", function() navigate("j") end)
+      vim.keymap.set("n", "<C-k>", function() navigate("k") end)
+      vim.keymap.set("n", "<C-l>", function() navigate("l") end)
+    end,
   },
 }
