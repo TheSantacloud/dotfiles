@@ -1,31 +1,7 @@
---- Find project root by looking for common project markers
---- @return string "Project root path"
+local util = require("dormunis.util")
+
 local function find_project_root()
-  local markers = { "pyproject.toml", "poetry.lock", ".git", "requirements.txt", ".venv" }
-  local path = vim.fn.expand("%:p:h")
-
-  while path ~= "/" do
-    for _, marker in ipairs(markers) do
-      if vim.loop.fs_stat(path .. "/" .. marker) then
-        return path
-      end
-    end
-    path = vim.fn.fnamemodify(path, ":h")
-  end
-
-  return vim.loop.cwd()
-end
-
---- Gets the selected code
---- @return string "Code Snippet"
-local function get_selected_code()
-  local start_line = vim.fn.line("'<")
-  local end_line = vim.fn.line("'>")
-  local lines = vim.fn.getline(start_line, end_line)
-  if type(lines) == "string" then
-    lines = { lines }
-  end
-  return table.concat(lines, "\n")
+  return util.find_project_root({ "pyproject.toml", "poetry.lock", ".git", "requirements.txt", ".venv" })
 end
 
 local function get_python_bin()
@@ -90,7 +66,7 @@ vim.keymap.set("n", "<space><space>r", function()
 end)
 
 vim.keymap.set("v", "<space><space>r", function()
-  local code = get_selected_code()
+  local code = util.get_selected_code()
   local python_bin = get_python_bin()
   execute_python_snippet(code, { bin = python_bin })
 end)

@@ -1,31 +1,7 @@
---- Find project root by looking for common Go project markers
---- @return string "Project root path"
+local util = require("dormunis.util")
+
 local function find_project_root()
-  local markers = { "go.mod", "go.sum", ".git" }
-  local path = vim.fn.expand("%:p:h")
-
-  while path ~= "/" do
-    for _, marker in ipairs(markers) do
-      if vim.loop.fs_stat(path .. "/" .. marker) then
-        return path
-      end
-    end
-    path = vim.fn.fnamemodify(path, ":h")
-  end
-
-  return vim.loop.cwd()
-end
-
---- Gets the selected code
---- @return string "Code Snippet"
-local function get_selected_code()
-  local start_line = vim.fn.line("'<")
-  local end_line = vim.fn.line("'>")
-  local lines = vim.fn.getline(start_line, end_line)
-  if type(lines) == "string" then
-    lines = { lines }
-  end
-  return table.concat(lines, "\n")
+  return util.find_project_root({ "go.mod", "go.sum", ".git" })
 end
 
 --- Executes a Go snippet by wrapping it in a temporary main package
@@ -90,7 +66,7 @@ end, { buffer = true, desc = "Run Go file" })
 
 -- Keymap: Run selected code
 vim.keymap.set("v", "<space><space>r", function()
-  local code = get_selected_code()
+  local code = util.get_selected_code()
   execute_go_snippet(code)
 end, { buffer = true, desc = "Run Go snippet" })
 
