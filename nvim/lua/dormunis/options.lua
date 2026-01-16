@@ -71,3 +71,16 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 })
 
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
+
+-- git conflict marker highlighting
+vim.api.nvim_set_hl(0, "ConflictOurs", { bg = "#2e4a2e" })
+vim.api.nvim_set_hl(0, "ConflictTheirs", { bg = "#4a2e2e" })
+vim.api.nvim_set_hl(0, "ConflictMarker", { bg = "#4a4a2e", bold = true })
+vim.api.nvim_create_autocmd("BufEnter", {
+  callback = function()
+    vim.fn.matchadd("ConflictOurs", [[^<<<<<<<.*$]])
+    vim.fn.matchadd("ConflictTheirs", [[^>>>>>>>.*$]])
+    vim.fn.matchadd("ConflictMarker", [[^=======.*$]])
+    vim.fn.matchadd("ConflictMarker", [[^|||||||.*$]])
+  end,
+})

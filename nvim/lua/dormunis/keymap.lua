@@ -44,6 +44,10 @@ end, opts)
 keymap("n", "]q", ":cnext<CR>", opts) -- next quickfix
 keymap("n", "[q", ":cprev<CR>", opts) -- previous quickfix
 
+-- git conflict navigation
+keymap("n", "]X", [[/^\(<<<<<<<\|=======\|>>>>>>>\)<CR>]], { desc = "Next conflict marker", silent = true })
+keymap("n", "[X", [[?^\(<<<<<<<\|=======\|>>>>>>>\)<CR>]], { desc = "Prev conflict marker", silent = true })
+
 -- new sessionizer
 keymap("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>", opts)
 
