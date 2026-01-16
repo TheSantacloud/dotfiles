@@ -70,5 +70,10 @@ echo "initializing addons"
 # fzf setup
 $(brew --prefix)/opt/fzf/install
 
+# build global-nav (submodule)
+(cd $dotfilesdir/global-nav && zig build -Doptimize=ReleaseSmall)
+ln -s $dotfilesdir/global-nav ~/dev/private/global-nav
+ln -s $dotfilesdir/global-nav ~/.config/tmux/plugins/global-nav
+
 # setting up yabai and skhd
 brew services start yabai skhd

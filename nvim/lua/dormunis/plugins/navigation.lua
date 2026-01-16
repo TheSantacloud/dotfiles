@@ -48,7 +48,9 @@ return {
       map("n", "<leader><tab>", fzf.files, { desc = "Find files (hidden included)" })
       map("n", "<leader>ff", fzf.git_files, { desc = "Find git-tracked files" })
       map("n", "<leader>fb", fzf.buffers, { desc = "Open buffers" })
-      map("n", "<leader>fr", fzf.oldfiles, { desc = "Recently opened files" })
+      map("n", "<leader>fr", function()
+        fzf.oldfiles({ cwd_only = true })
+      end, { desc = "Recently opened files" })
       map("n", "<leader>fg", function()
         fzf.live_grep({ resume = true, rg_glob = true })
       end, { desc = "Live grep project" })
@@ -59,7 +61,7 @@ return {
       map("n", "<leader>fD", fzf.lsp_workspace_symbols, { desc = "LSP workspace symbols" })
       map("n", "<leader>fd", fzf.lsp_document_symbols, { desc = "LSP document symbols" })
       map("n", "<leader>fc", fzf.blines, { desc = "Search in current buffer" })
-      map("n", "<leader>hh", fzf.help_tags, { desc = "Help tags" })
+      map("n", "<leader><leader>h", fzf.help_tags, { desc = "Help tags" })
       map("n", "<leader>hk", fzf.keymaps, { desc = "Keymaps" })
     end,
   },
@@ -114,50 +116,15 @@ return {
   },
   {
     "stevearc/oil.nvim",
-    dependencies = { { "echasnovski/mini.icons", opts = {} } },
     config = function()
       require("oil").setup()
       vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
     end,
   },
   {
-    "vim-tmux-yabai-navigator",
-    virtual = true,
+    dir = "~/dev/private/global-nav",
     config = function()
-      local directions = {
-        h = { wincmd = "h", tmux = "-L", yabai = "west", at_edge = "#{pane_at_left}" },
-        j = { wincmd = "j", tmux = "-D", yabai = "south", at_edge = "#{pane_at_bottom}" },
-        k = { wincmd = "k", tmux = "-U", yabai = "north", at_edge = "#{pane_at_top}" },
-        l = { wincmd = "l", tmux = "-R", yabai = "east", at_edge = "#{pane_at_right}" },
-      }
-
-      local function yabai_focus(dir)
-        vim.fn.system("~/.config/skhd/yabai_focus.sh " .. dir)
-      end
-
-      local function navigate(dir)
-        local d = directions[dir]
-        local win_before = vim.fn.winnr()
-        vim.cmd("wincmd " .. d.wincmd)
-        if vim.fn.winnr() ~= win_before then
-          return
-        end
-        if not vim.env.TMUX then
-          yabai_focus(d.yabai)
-          return
-        end
-        local at_edge = vim.fn.system("tmux display-message -p '" .. d.at_edge .. "'"):gsub("%s+", "")
-        if at_edge == "1" then
-          yabai_focus(d.yabai)
-        else
-          vim.fn.system("tmux select-pane " .. d.tmux)
-        end
-      end
-
-      vim.keymap.set("n", "<C-h>", function() navigate("h") end)
-      vim.keymap.set("n", "<C-j>", function() navigate("j") end)
-      vim.keymap.set("n", "<C-k>", function() navigate("k") end)
-      vim.keymap.set("n", "<C-l>", function() navigate("l") end)
+      require("global-nav").setup()
     end,
   },
 }

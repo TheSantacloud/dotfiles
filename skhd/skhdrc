@@ -19,19 +19,19 @@ alt + ctrl + cmd - down     : zsh ~/.config/skhd/move_window.zsh down
 # focus windows (pass-through to terminal for vim-tmux-navigator, yabai for everything else)
 ctrl - h [
     "Ghostty" ~
-    * : ~/.config/skhd/yabai_focus.sh west
+    * : ~/.local/bin/global-nav west
 ]
 ctrl - j [
     "Ghostty" ~
-    * : ~/.config/skhd/yabai_focus.sh south
+    * : ~/.local/bin/global-nav south
 ]
 ctrl - k [
     "Ghostty" ~
-    * : ~/.config/skhd/yabai_focus.sh north
+    * : ~/.local/bin/global-nav north
 ]
 ctrl - l [
     "Ghostty" ~
-    * : ~/.config/skhd/yabai_focus.sh east
+    * : ~/.local/bin/global-nav east
 ]
 
 # app shortcuts

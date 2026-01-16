@@ -11,10 +11,8 @@ return {
         vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
       end
 
-      nmap("<leader>r", vim.lsp.buf.rename, "Rename")
       nmap("gD", vim.lsp.buf.declaration, "Go to declaration")
       nmap("gd", vim.lsp.buf.definition, "Go to definition")
-      nmap("gI", vim.lsp.buf.implementation, "Go to implementation")
       nmap("gt", vim.lsp.buf.type_definition, "Go to type definition")
       nmap("grr", function()
         vim.lsp.buf.references(nil, {
@@ -33,7 +31,6 @@ return {
       end, "Get references in a quickfix list")
       nmap("H", vim.lsp.buf.signature_help, "Signature Help")
       nmap("<leader>cf", vim.lsp.buf.format, "Format file")
-      nmap("<leader>ca", vim.lsp.buf.code_action, "Code action")
       nmap("<leader>L", ":LspRestart<CR>", "LSP Restart")
     end
 

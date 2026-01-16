@@ -37,7 +37,6 @@ vim.o.ignorecase = true
 vim.o.smartcase = true
 
 vim.o.termguicolors = true
-vim.o.showmode = false
 
 vim.o.scrolloff = 8
 vim.o.signcolumn = "yes"

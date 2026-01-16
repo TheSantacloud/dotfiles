@@ -5,7 +5,7 @@ DEV_DIR="$HOME/dev"
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    selected=$(find ~/dev -mindepth 1 -maxdepth 3 -type d -name ".git" |
+    selected=$(find ~/dev -mindepth 1 -maxdepth 3 -name ".git" -not -path "*/.bare/*" |
         sed -e 's:/\.git$::' -e "s:^$HOME/dev/::" | fzf-tmux)
 
     # catch escape key

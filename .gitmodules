@@ -10,3 +10,6 @@
 [submodule "zsh-completions"]
 	path = zsh/plugins/zsh-completions
     url = git@github.com:zsh-users/zsh-completions.git
+[submodule "global-nav"]
+	path = global-nav
+	url = git@github.com:TheSantacloud/global-nav.git

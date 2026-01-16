@@ -51,10 +51,12 @@ bindkey -s '^f' "tmux-sessionizer\n"
 
 # postgres
 export PATH="$PATH:/opt/homebrew/opt/postgresql@17/bin"
-#
+
 # volta
 export PATH="$HOME/.volta/bin:$PATH"
 
+# colima
+export DOCKER_HOST="unix://${HOME}/.colima/default/docker.sock"
 
 # profiling
 if [ $PROFILING_MODE -ne 0 ]; then

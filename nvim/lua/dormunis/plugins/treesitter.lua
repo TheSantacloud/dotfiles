@@ -16,6 +16,14 @@ return {
           clear_on_cursor_move = true,
         },
       },
+      incremental_selection = {
+        enable = true,
+        keymaps = {
+          init_selection = "<C-n>",
+          node_incremental = "<C-n>",
+          node_decremental = "<C-p>",
+        },
+      },
       textobjects = {
         select = {
           enable = true,

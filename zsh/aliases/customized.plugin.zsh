@@ -29,3 +29,21 @@ s() {
     echo "No virtual environment found"
   fi
 }
+
+wta() {
+  local name="$1"
+  [ -z "$name" ] && { echo "Usage: wta <name>"; return 1; }
+
+  local repo_root=$(git rev-parse --show-toplevel 2>/dev/null) || { echo "Not in a git repo"; return 1; }
+  local worktree_path="${repo_root}/../$(basename "$repo_root")-${name}"
+
+  git worktree add -b "$name" "$worktree_path" 2>/dev/null || \
+  git worktree add "$worktree_path" "$name" || return 1
+
+  local to_link=(.env .env.local node_modules)
+  for item in "${to_link[@]}"; do
+    [ -e "$repo_root/$item" ] && ln -sf "$repo_root/$item" "$worktree_path/$item"
+  done
+
+  tmux new-window -c "$worktree_path" -n "$name"
+}

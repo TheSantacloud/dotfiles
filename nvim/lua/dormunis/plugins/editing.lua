@@ -4,16 +4,6 @@ return {
     lazy = false,
   },
   {
-    "folke/lazydev.nvim",
-    event = "VeryLazy",
-    ft = "lua",
-    opts = {
-      library = {
-        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
-      },
-    },
-  },
-  {
     "kylechui/nvim-surround",
     version = "*",
     event = "VeryLazy",
@@ -30,62 +20,34 @@ return {
   {
     "saghen/blink.cmp",
     event = "VeryLazy",
-    dependencies = {
-      "rafamadriz/friendly-snippets",
-      "echasnovski/mini.icons",
-    },
     version = "*",
     ---@module 'blink.cmp'
     opts = {
       completion = {
+        menu = { auto_show = false },
         list = {
           selection = {
             preselect = true,
             auto_insert = false,
           },
         },
+        ghost_text = { enabled = true },
         documentation = {
           auto_show = true,
-          auto_show_delay_ms = 500,
-        },
-        menu = {
-          draw = {
-            components = {
-              kind_icon = {
-                ellipsis = false,
-                text = function(ctx)
-                  local kind_icon, _, _ = require("mini.icons").get("lsp", ctx.kind)
-                  return kind_icon
-                end,
-                highlight = function(ctx)
-                  local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
-                  return hl
-                end,
-              },
-            },
-          },
+          auto_show_delay_ms = 200,
         },
       },
       keymap = {
-        preset = "default",
-        ["<C-space>"] = {},
+        preset = "none",
+        ["<C-n>"] = { "show", "select_next", "fallback_to_mappings" },
+        ["<C-p>"] = { "select_prev", "fallback_to_mappings" },
+        ["<C-y>"] = { "select_and_accept", "fallback" },
+        ["<C-e>"] = { "cancel", "fallback" },
+        ["<C-space>"] = { "accept", "fallback" },
       },
-      appearance = {
-        nerd_font_variant = "mono",
-      },
-      sources = {
-        default = { "snippets", "lsp", "lazydev", "path", "buffer" },
-        providers = {
-          lazydev = {
-            name = "lazydev",
-            module = "lazydev.integrations.blink",
-            score_offset = 100,
-          },
-        },
-      },
+      sources = { default = { "lsp", "buffer", "path" } },
       signature = { enabled = true },
     },
-    opts_extend = { "sources.default" },
   },
   {
     "stevearc/conform.nvim",
@@ -104,17 +66,16 @@ return {
       },
     },
   },
-  {
-
-    "supermaven-inc/supermaven-nvim",
-    config = function()
-      require("supermaven-nvim").setup({
-        keymaps = {
-          accept_suggestion = "<C-space>",
-          clear_suggestion = "Esc",
-          accept_word = "<C-shift-space>",
-        },
-      })
-    end,
-  },
+  -- {
+  --   "supermaven-inc/supermaven-nvim",
+  --   config = function()
+  --     require("supermaven-nvim").setup({
+  --       keymaps = {
+  --         accept_suggestion = "<C-space>",
+  --         clear_suggestion = "Esc",
+  --         accept_word = "<C-shift-space>",
+  --       },
+  --     })
+  --   end,
+  -- },
 }
