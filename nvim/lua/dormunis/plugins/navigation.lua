@@ -10,6 +10,8 @@ return {
           vim.cmd("cclose")
         else
           vim.cmd("TodoQuickFix keywords=TODO,BUG,FIX,FIXME")
+          vim.cmd("cclose")
+          Popup("copen", 2)
         end
       end, { desc = "TODO quickfix" }),
       vim.keymap.set("n", "]t", function()

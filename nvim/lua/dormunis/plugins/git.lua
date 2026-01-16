@@ -1,14 +1,3 @@
-FONT_WIDTH_HEIGHT_RATIO = 2.1
-
-local popup = function(cmd)
-  local width = vim.api.nvim_win_get_width(0)
-  local height = vim.api.nvim_win_get_height(0)
-  if width / (height * FONT_WIDTH_HEIGHT_RATIO) > 1 then
-    cmd = "vertical " .. cmd
-  end
-  vim.cmd(cmd)
-end
-
 local function getFugitiveBufferWindowIds()
   local fugitiveBufferIds = {}
   local buffers = vim.api.nvim_list_bufs()
@@ -38,7 +27,7 @@ return {
     config = function()
       vim.keymap.set("n", "<leader>gs", function()
         if vim.bo.ft ~= "fugitive" then
-          popup("Git")
+          Popup("Git")
         else
           vim.api.nvim_buf_delete(vim.api.nvim_get_current_buf(), { force = true })
         end
@@ -61,7 +50,7 @@ return {
         end
       end, { desc = "Git: git blame on file" })
       vim.keymap.set("n", "<leader>gcm", function()
-        popup("Git commit")
+        Popup("Git commit")
       end, { desc = "Git commit" })
       vim.keymap.set("n", "<leader>gd", function()
         local fugitiveWindows = getFugitiveBufferWindowIds()
