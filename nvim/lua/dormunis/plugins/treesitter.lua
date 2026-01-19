@@ -8,8 +8,12 @@ return {
     "nvim-treesitter/nvim-treesitter-textobjects",
   },
   config = function()
-    ---@diagnostic disable-next-line: missing-fields
     require("nvim-treesitter.configs").setup({
+      highlight = {
+        enable = true,
+      },
+      modules = {},
+      ignore_install = {},
       refactor = {
         highlight_definitions = {
           enable = true,
@@ -19,9 +23,9 @@ return {
       incremental_selection = {
         enable = true,
         keymaps = {
-          init_selection = "<C-n>",
-          node_incremental = "<C-n>",
-          node_decremental = "<C-p>",
+          init_selection = "<CR>",
+          node_incremental = "<CR>",
+          node_decremental = "<BS>",
         },
       },
       textobjects = {
@@ -67,17 +71,11 @@ return {
       },
       sync_install = false,
       auto_install = true,
-      ---@diagnostic disable-next-line: unused-local
-      disable = function(lang, buf)
+      disable = function(_, buf)
         local max_filesize = 100 * 1024 -- 100 KB
-        local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-        if ok and stats and stats.size > max_filesize then
-          return true
-        end
+        local size = vim.fn.getfsize(vim.api.nvim_buf_get_name(buf))
+        return size > max_filesize
       end,
-      highlight = {
-        enable = true,
-      },
     })
   end,
 }

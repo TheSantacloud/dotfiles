@@ -9,8 +9,16 @@ background = #000000
 window-decoration = false
 window-padding-color = background
 confirm-close-surface = false
-window-padding-y = 0
 window-padding-x = 8
+window-padding-y = 0
+
+# option+j/k for history navigation
+keybind = alt+k=csi:A
+keybind = alt+j=csi:B
+
+# unbind split creation keybinds (using tmux)
+keybind = super+d=unbind
+keybind = super+shift+d=unbind
 
 # tmux new window
 keybind = super+t=text:\x02c
@@ -38,9 +46,3 @@ keybind = super+digit_7=text:\x027
 keybind = super+digit_8=text:\x028
 keybind = super+digit_9=text:\x029
 
-# option+j/k for history navigation
-keybind = alt+k=csi:A
-keybind = alt+j=csi:B
-
-# reload config
-keybind = super+r=reload_config

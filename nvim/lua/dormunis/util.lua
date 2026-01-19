@@ -10,7 +10,7 @@ function M.find_project_root(markers)
     end
     path = vim.fn.fnamemodify(path, ":h")
   end
-  return vim.loop.cwd()
+  return vim.uv.cwd()
 end
 
 function M.get_selected_code()
