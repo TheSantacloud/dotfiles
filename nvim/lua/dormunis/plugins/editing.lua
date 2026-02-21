@@ -1,7 +1,6 @@
 return {
   {
-    "preservim/vimux",
-    lazy = false,
+    "git@github.com:tpope/vim-abolish.git",
   },
   {
     "kylechui/nvim-surround",

@@ -60,3 +60,10 @@ keymap("n", "<leader>y", ":%y+<CR>", opts)
 -- insert timestamp (insert mode)
 keymap("i", "<C-t>", os.date("%Y%m%d%H%M%S"), opts)
 keymap("i", "<C-d>", os.date("%Y%m%d"), opts)
+
+-- terminal mode
+keymap("t", "<Esc><Esc>", [[<C-\><C-n>]], opts)
+keymap("t", "<C-h>", [[<C-\><C-n><C-w>h]], opts)
+keymap("t", "<C-j>", [[<C-\><C-n><C-w>j]], opts)
+keymap("t", "<C-k>", [[<C-\><C-n><C-w>k]], opts)
+keymap("t", "<C-l>", [[<C-\><C-n><C-w>l]], opts)

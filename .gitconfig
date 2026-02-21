@@ -4,6 +4,7 @@
 
 [core]
 	editor = nvim
+	excludesFile = /Users/dormunis/.gitignore_global
 
 [pull]
 	rebase = true

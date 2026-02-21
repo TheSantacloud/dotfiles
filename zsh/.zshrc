@@ -62,7 +62,5 @@ export DOCKER_HOST="unix://${HOME}/.colima/default/docker.sock"
 if [ $PROFILING_MODE -ne 0 ]; then
     zsh_end_time=$(python3 -c 'import time; print(int(time.time() * 1000))')
     zprof
-    echo "Shell init time: $((zsh_end_time - zsh_start_time - 21)) msasdasd"
+    echo "Shell init time: $((zsh_end_time - zsh_start_time - 21))"
 fi
-
-. "$HOME/.local/bin/env"

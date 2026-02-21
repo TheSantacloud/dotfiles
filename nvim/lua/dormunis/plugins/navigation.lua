@@ -92,7 +92,7 @@ return {
       vim.keymap.set("n", "=", function()
         harpoon:list():next({ ui_nav_wrap = true })
       end, { desc = "Navigate to next marked file", silent = true, noremap = true })
-      for i = 1, 7 do
+      for i = 1, 9 do
         vim.keymap.set("n", "=" .. i, function()
           harpoon:list():select(i)
         end, { desc = "Navigate harpoon ID " .. i, silent = true, noremap = true })

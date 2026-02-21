@@ -3,11 +3,10 @@ return {
   event = "VeryLazy",
   dependencies = {
     "nvim-treesitter/nvim-treesitter",
-    "preservim/vimux",
   },
   config = function()
     local g = vim.g
-    g["test#strategy"] = "vimux"
+    g["test#strategy"] = "neovim"
     g["test#python#pytest#executable"] = "uv run pytest"
     g["test#python#pytest#options"] = "-s --disable-warnings"
     g["test#javascript#jest#executable"] = "npm test"
