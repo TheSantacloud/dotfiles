@@ -30,7 +30,7 @@ return {
         })
       end, "Get references in a quickfix list")
       nmap("H", vim.lsp.buf.signature_help, "Signature Help")
-      nmap("<leader>cf", vim.lsp.buf.format, "Format file")
+      nmap("<leader><leader>f", vim.lsp.buf.format, "Format file")
       nmap("<leader>L", ":LspRestart<CR>", "LSP Restart")
     end
 

@@ -41,4 +41,4 @@ alt + ctrl + cmd - o : notes
 alt + ctrl + cmd - t : open -a "Todoist"
 alt + ctrl + cmd - m : open -a "Spotify"
 alt + ctrl + cmd - p : open -a "Postico 2"
-
+alt + ctrl + cmd - c : open -a "DataGrip"

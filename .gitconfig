@@ -21,3 +21,5 @@
 	wtl = "!f() { git worktree list; }; f"
 [merge]
 	conflictstyle = diff3
+[status]
+	showUntrackedFiles = all

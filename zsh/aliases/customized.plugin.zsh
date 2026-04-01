@@ -47,3 +47,8 @@ wta() {
 
   tmux new-window -c "$worktree_path" -n "$name"
 }
+
+# wlpm
+warb() {
+    wlpm positions --sort shares --refresh | awk 'NR>1 {count[$4]++} END {for (val in count) if (count[val] % 2 != 0) print val " appears " count[val] " times (unbalanced)"}'
+}

@@ -3,6 +3,12 @@ return {
     "git@github.com:tpope/vim-abolish.git",
   },
   {
+    "git@github.com:junegunn/vim-easy-align",
+    keys= {
+      { "ga", "<Plug>(EasyAlign)", mode = { "n", "x" }, desc = "Easy Align"}
+    }
+  },
+  {
     "kylechui/nvim-surround",
     version = "*",
     event = "VeryLazy",
@@ -58,10 +64,6 @@ return {
         python = { "ruff_format" },
         javascript = { "prettierd" },
         typescript = { "prettierd" },
-      },
-      format_on_save = {
-        timeout_ms = 500,
-        lsp_fallback = true,
       },
     },
   },
