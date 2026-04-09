@@ -10,20 +10,29 @@ function M.setup()
     severity_sort = true,
   })
 
+  local function on_jump(diagnostic, bufnr)
+    if not diagnostic then return end
+      vim.diagnostic.open_float({
+        bufnr = bufnr,
+        scope = 'cursor',
+        focus = false,
+      })
+  end
+
   vim.keymap.set("n", "]x", function()
-    vim.diagnostic.jump({ count = 1, float = true, severity = { min = vim.diagnostic.severity.ERROR } })
+    vim.diagnostic.jump({ count = 1, on_jump = on_jump, severity = { min = vim.diagnostic.severity.ERROR } })
   end, { desc = "Next diagnostic" })
 
   vim.keymap.set("n", "[x", function()
-    vim.diagnostic.jump({ count = -1, float = true, severity = { min = vim.diagnostic.severity.ERROR } })
+    vim.diagnostic.jump({ count = -1, on_jump = on_jump, severity = { min = vim.diagnostic.severity.ERROR } })
   end, { desc = "Previous diagnostic" })
 
   vim.keymap.set("n", "]w", function()
-    vim.diagnostic.jump({ count = 1, float = true, severity = vim.diagnostic.severity.WARN })
+    vim.diagnostic.jump({ count = 1, on_jump = on_jump, severity = vim.diagnostic.severity.WARN })
   end, { desc = "Next warning diagnostic" })
 
   vim.keymap.set("n", "[w", function()
-    vim.diagnostic.jump({ count = -1, float = true, severity = vim.diagnostic.severity.WARN })
+    vim.diagnostic.jump({ count = -1, on_jump = on_jump, severity = vim.diagnostic.severity.WARN })
   end, { desc = "Previous warning diagnostic" })
 
   vim.keymap.set("n", "X", vim.diagnostic.open_float, { desc = "Line diagnostic" })

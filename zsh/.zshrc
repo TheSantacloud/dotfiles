@@ -47,7 +47,16 @@ zsource $ZSH/aliases/kubectl.plugin.zsh
 
 # utilities
 [ -f ~/.fzf.zsh ] && zsource ~/.fzf.zsh
-bindkey -s '^f' "tmux-sessionizer\n"
+# sessionizer
+function _smart_ctrl_f() {
+  if [[ -n "$BUFFER" ]]; then
+    zle autosuggest-accept
+  else
+    tmux neww ~/.local/bin/tmux-sessionizer
+  fi
+}
+zle -N _smart_ctrl_f
+bindkey '^f' _smart_ctrl_f
 
 # postgres
 export PATH="$PATH:/opt/homebrew/opt/postgresql@17/bin"
