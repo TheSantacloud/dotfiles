@@ -6,9 +6,9 @@ return {
   },
   config = function()
     local g = vim.g
-    g["test#strategy"] = "neovim"
+    g["test#strategy"] = "dispatch_background"
     g["test#python#pytest#executable"] = "uv run pytest"
-    g["test#python#pytest#options"] = "-s --disable-warnings"
+    g["test#python#pytest#options"] = "-s --disable-warnings --tb=short"
     g["test#javascript#jest#executable"] = "npm test"
     g["test#javascript#jest#file_pattern"] = "*.test.(js|jsx|ts|tsx)"
     g["test#go#runner"] = "gotest"

@@ -1,7 +1,6 @@
 return {
-  {
-    "git@github.com:tpope/vim-abolish.git",
-  },
+  { "git@github.com:tpope/vim-abolish.git" },
+  { "git@github.com:tpope/vim-dispatch.git" },
   {
     "git@github.com:junegunn/vim-easy-align",
     keys= {

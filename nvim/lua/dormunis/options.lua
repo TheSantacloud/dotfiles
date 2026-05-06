@@ -1,6 +1,9 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+-- load local wd .nvim.lua
+vim.o.exrc = true
+
 vim.o.guicursor = ""
 vim.o.cursorline = true
 vim.o.showcmd = true

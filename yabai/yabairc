@@ -1,18 +1,18 @@
 # configure
-yabai -m config layout                      bsp             \
-                auto_balance                off              \
-                window_animation_duration   0.2             \
-                window_placement            second_child    \
-                window_zoom_persist         off             \
-                focus_follows_mouse         off             \
-                mouse_follows_focus         off             \
-                mouse_drop_action           swap            \
-                insert_feedback_color       0xff9dd274      \
-                top_padding                 0              \
-                bottom_padding              0              \
-                left_padding                0              \
-                right_padding               0              \
-                window_gap                  0
+yabai -m config layout                      bsp          \
+                auto_balance                off          \
+                window_animation_duration   0.2          \
+                window_placement            second_child \
+                window_zoom_persist         off          \
+                focus_follows_mouse         off          \
+                mouse_follows_focus         off          \
+                mouse_drop_action           swap         \
+                insert_feedback_color       0xff9dd274   \
+                top_padding                 0            \
+                bottom_padding              0            \
+                left_padding                0            \
+                right_padding               0            \
+                window_gap                  2
 
 # disable window apps
 yabai -m rule --add app="^Zoom.us$" manage=off
